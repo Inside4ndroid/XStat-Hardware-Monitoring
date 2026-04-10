@@ -1,51 +1,103 @@
-/* ── Nav scroll effect ─────────────────────── */
-const nav = document.getElementById('nav')
+/* ════════════════════════════════════════════════
+   XStat Website — JS
+   ════════════════════════════════════════════════ */
+
+// ── Nav: scrolled class ────────────────────────
+const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 10)
-}, { passive: true })
+  nav.classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
 
-/* ── Mobile nav toggle ─────────────────────── */
-const navToggle = document.getElementById('navToggle')
-const navLinks  = document.querySelector('.nav-links')
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open')
-})
-// Close on link click
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'))
-})
+// ── Nav: mobile burger ─────────────────────────
+const navBurger = document.getElementById('navBurger');
+const navLinks  = document.getElementById('navLinks');
+if (navBurger && navLinks) {
+  navBurger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navBurger.classList.toggle('open', open);
+    navBurger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navBurger.classList.remove('open');
+      navBurger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+}
 
-/* ── Scroll-in animations ──────────────────── */
-const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible')
-        observer.unobserve(e.target)
-      }
-    })
-  },
-  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-)
+// ── Reveal on scroll ──────────────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const siblings = entry.target.parentElement
+        ? Array.from(entry.target.parentElement.querySelectorAll('[data-reveal]'))
+        : [];
+      const idx = siblings.indexOf(entry.target);
+      const delay = Math.min(idx * 60, 300);
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, delay);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-const animTargets = [
-  '.feature-card',
-  '.screenshot-card',
-  '.tech-item',
-  '.doc-card',
-  '.download-card',
-  '.widget-pill',
-  '.hero-badge',
-  '.hero-title',
-  '.hero-sub',
-  '.hero-actions',
-  '.hero-stats',
-  '.section-header',
-]
+document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
-document.querySelectorAll(animTargets.join(',')).forEach((el, i) => {
-  el.classList.add('fade-in')
-  // Stagger siblings slightly
-  el.style.transitionDelay = `${(i % 8) * 0.05}s`
-  observer.observe(el)
-})
+// ── Showcase tabs ─────────────────────────────
+const tabsEl = document.querySelector('[data-tabs]');
+if (tabsEl) {
+  const btns   = tabsEl.querySelectorAll('.tab-btn');
+  const panels = tabsEl.querySelectorAll('.tab-panel');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = btn.dataset.tab;
+      btns.forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === idx);
+        b.setAttribute('aria-selected', String(b.dataset.tab === idx));
+      });
+      panels.forEach(p => {
+        p.classList.toggle('active', p.dataset.panel === idx);
+      });
+    });
+  });
+}
+
+// ── Live clock widget preview ─────────────────
+function updateClock() {
+  const el = document.querySelector('.wp-clock-time');
+  if (!el) return;
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  el.textContent = h + ':' + m;
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ── Bar widget animated demo ──────────────────
+(function animateBar() {
+  const fill  = document.querySelector('.wp-fill');
+  const valEl = document.querySelector('.wp-val-sm');
+  if (!fill) return;
+
+  let target  = 35;
+  let current = 35;
+
+  setInterval(() => {
+    target = Math.max(5, Math.min(95, target + (Math.random() - 0.48) * 18));
+  }, 2000);
+
+  function step() {
+    current += (target - current) * 0.06;
+    const pct = Math.round(current);
+    fill.style.width = pct + '%';
+    if (valEl) valEl.textContent = pct + ' %';
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}());

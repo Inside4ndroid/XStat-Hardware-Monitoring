@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="XStat — Open-source real-time hardware monitoring and live sensor panel for Windows. Built with Electron, React, and ASP.NET Core." />
-  <meta name="theme-color" content="#0f0f11" />
+  <meta name="description" content="XStat — Open-source real-time hardware monitoring and live sensor panel for Windows. 291+ sensors. Drag-and-drop panel editor. LAN web panel." />
+  <meta name="theme-color" content="#0c0c0e" />
   <title>XStat — Hardware Monitoring</title>
 
   <!-- Open Graph -->
@@ -16,15 +16,587 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" href="images/logo.png" />
 
-  <!-- Google Fonts — Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- ═══════════════════════  NAV  ═══════════════════════ -->
-  <nav class="nav" id="nav">
+<!-- ═══════════ NAV ═══════════ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <img src="images/logo.png" alt="XStat" />
+      <span>XStat</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="#features">Features</a>
+      <a href="#showcase">Showcase</a>
+      <a href="#widgets">Widgets</a>
+      <a href="#download">Download</a>
+      <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring" class="nav-gh" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </nav>
+    <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-dots"></div>
+
+  <div class="hero-body">
+    <div class="hero-copy">
+      <div class="hero-kicker" data-reveal>
+        <span class="kicker-dot"></span>Open Source · Free · Windows
+      </div>
+      <h1 class="hero-h1" data-reveal>
+        Monitor your<br /><em>hardware</em> in<br />real&#8209;time.
+      </h1>
+      <p class="hero-p" data-reveal>
+        XStat reads live data from 291+ sensor channels across your CPU, GPU, RAM, and storage — then lets you design and display custom panels on your desktop and any device on your network.
+      </p>
+      <div class="hero-cta" data-reveal>
+        <a href="#download" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Free
+        </a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring" class="btn btn-outline" target="_blank" rel="noopener">
+          View Source
+        </a>
+      </div>
+      <div class="hero-pills" data-reveal>
+        <span>🖥 291+ Sensors</span>
+        <span>🧩 8 Widget Types</span>
+        <span>🌐 LAN Panel</span>
+        <span>⚡ SignalR Push</span>
+      </div>
+    </div>
+
+    <div class="hero-visual" data-reveal>
+      <div class="app-window">
+        <div class="app-chrome">
+          <div class="app-chrome-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="app-chrome-title">XSTAT</div>
+          <div class="app-chrome-actions">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="app-screen">
+          <img src="images/screenshots/Screenshot 2026-04-10 132009.png"
+               alt="XStat Dashboard showing CPU and GPU sensor data" />
+        </div>
+      </div>
+      <div class="hero-window-glow"></div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════ STATS BAR ═══════════ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <strong>291+</strong>
+      <span>Sensor channels</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <strong>8</strong>
+      <span>Widget types</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <strong>LAN</strong>
+      <span>Web panel access</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <strong>MIT</strong>
+      <span>Open source license</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <strong>Free</strong>
+      <span>Always &amp; forever</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FEATURES ═══════════ -->
+<section class="sec" id="features">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <div class="label">Features</div>
+      <h2>Everything your hardware monitoring setup needs</h2>
+      <p>XStat combines a powerful desktop app with a built-in web server so your panels work everywhere — no cloud, no subscription, no compromise.</p>
+    </div>
+
+    <!-- Big feature row: dashboard -->
+    <div class="feat-split feat-split--imgright" data-reveal>
+      <div class="feat-split-copy">
+        <div class="feat-eyebrow">Live Dashboard</div>
+        <h3>291+ sensor channels, all live.</h3>
+        <p>XStat uses LibreHardwareMonitor to pull data from every sensor in your system — CPU temperatures, per-core load, GPU clocks and memory, fan speeds, voltages, network throughput, and more. Updates are pushed over WebSockets so the display is always current.</p>
+        <ul class="feat-list">
+          <li>CPU — load, temperature, power, clocks, per-core</li>
+          <li>GPU — load, temp, VRAM, engine utilisation</li>
+          <li>RAM — used, free, load percentage</li>
+          <li>Storage, motherboard, network throughput</li>
+        </ul>
+      </div>
+      <div class="feat-split-img">
+        <div class="screenshot-frame">
+          <img src="images/screenshots/Screenshot 2026-04-10 132009.png"
+               alt="XStat Dashboard" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Big feature row: panel editor -->
+    <div class="feat-split" data-reveal>
+      <div class="feat-split-img">
+        <div class="screenshot-frame">
+          <img src="images/screenshots/Screenshot 2026-04-10 132022.png"
+               alt="XStat Panel Editor" loading="lazy" />
+        </div>
+      </div>
+      <div class="feat-split-copy">
+        <div class="feat-eyebrow">Panel Editor</div>
+        <h3>Design your perfect sensor panel.</h3>
+        <p>A drag-and-drop grid canvas lets you place, resize, layer, and style widgets exactly how you want them. Every element has its own colour, font, size, and visibility controls — no templates, no constraints.</p>
+        <ul class="feat-list">
+          <li>Drag, resize and layer widgets freely</li>
+          <li>Per-element colour, font &amp; size controls</li>
+          <li>Toggle label / value / unit / accent on each widget</li>
+          <li>Import &amp; export layouts as JSON</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Feature card grid -->
+    <div class="feat-cards" data-reveal>
+
+      <div class="feat-card">
+        <div class="feat-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h4>LAN Web Panel</h4>
+        <p>Your panel displays on any phone, tablet or secondary monitor on your network. Scan the QR code from Settings to open it instantly.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h4>Custom HTML Widgets</h4>
+        <p>Write full HTML, CSS and JavaScript widgets in the built-in Monaco editor. Live preview updates as you type. Sensor data injected via postMessage.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h4>Real-time SignalR Push</h4>
+        <p>Data is pushed over WebSockets to every connected client simultaneously — desktop and LAN browser in sync with no polling latency.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <h4>Multiple Panels</h4>
+        <p>Create and switch between named panel layouts. Each panel is a separate design — use different ones for gaming, workstation or streaming setups.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        </div>
+        <h4>Configurable Port</h4>
+        <p>Change the service port directly from the Settings page. The service restarts automatically — no config files to edit by hand.</p>
+      </div>
+
+      <div class="feat-card feat-card--accent">
+        <div class="feat-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </div>
+        <h4>MIT Licensed</h4>
+        <p>Completely free and open source. Fork it, customise it, contribute back. No telemetry, no licence keys, no subscriptions — ever.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SHOWCASE ═══════════ -->
+<section class="sec sec--dark" id="showcase">
+  <div class="container">
+    <div class="sec-head sec-head--light" data-reveal>
+      <div class="label">In Action</div>
+      <h2>See every part of XStat</h2>
+      <p>From live sensor dashboards to the full custom widget editor, XStat is a complete monitoring suite.</p>
+    </div>
+
+    <div class="showcase-tabs" data-tabs>
+      <div class="tab-bar" role="tablist">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="0">Dashboard</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="1">Panel Editor</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="2">Settings</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="3">Widget Editor</button>
+      </div>
+
+      <div class="tab-panels">
+        <div class="tab-panel active" data-panel="0">
+          <div class="tab-frame">
+            <div class="tab-frame-chrome">
+              <div class="tab-chrome-dots"><span></span><span></span><span></span></div>
+              <div class="tab-chrome-label">Dashboard — Live Sensor Overview</div>
+            </div>
+            <img src="images/screenshots/Screenshot 2026-04-10 132009.png"
+                 alt="XStat Dashboard" />
+          </div>
+          <div class="tab-desc">
+            <strong>Live sensor overview.</strong> The dashboard groups sensors by hardware category — CPU, GPU, RAM, motherboard, storage and network. Spark-line history graphs update in real time, and the per-core load table gives you a granular view of your processor.
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="1">
+          <div class="tab-frame">
+            <div class="tab-frame-chrome">
+              <div class="tab-chrome-dots"><span></span><span></span><span></span></div>
+              <div class="tab-chrome-label">Panel Editor — Drag &amp; Drop Builder</div>
+            </div>
+            <img src="images/screenshots/Screenshot 2026-04-10 132022.png"
+                 alt="XStat Panel Editor" />
+          </div>
+          <div class="tab-desc">
+            <strong>Design your own display.</strong> Place widgets on a dot-grid canvas, resize them freely and layer them with z-index controls. Every widget binds to any sensor and has per-element styling. Panels are served live to LAN browsers.
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="2">
+          <div class="tab-frame">
+            <div class="tab-frame-chrome">
+              <div class="tab-chrome-dots"><span></span><span></span><span></span></div>
+              <div class="tab-chrome-label">Settings — Service &amp; Network</div>
+            </div>
+            <img src="images/screenshots/Screenshot 2026-04-10 132029.png"
+                 alt="XStat Settings" />
+          </div>
+          <div class="tab-desc">
+            <strong>Simple, in-app configuration.</strong> Change the service port and hit Apply — the service restarts automatically. The LAN panel URL and QR code update immediately so you can scan from your phone.
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="3">
+          <div class="tab-frame">
+            <div class="tab-frame-chrome">
+              <div class="tab-chrome-dots"><span></span><span></span><span></span></div>
+              <div class="tab-chrome-label">Custom Widget Editor — Monaco + Live Preview</div>
+            </div>
+            <img src="images/screenshots/Screenshot 2026-04-10 132354.png"
+                 alt="XStat Custom Widget Editor" />
+          </div>
+          <div class="tab-desc">
+            <strong>Full creative control.</strong> Open the Monaco editor to write bespoke HTML/CSS/JS widgets. The live preview pane on the right rerenders as you type. Sensor data is injected via a postMessage API — bind any value to any visual element.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WIDGETS ═══════════ -->
+<section class="sec" id="widgets">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <div class="label">Widget Library</div>
+      <h2>Eight widget types, infinite layouts</h2>
+      <p>Every widget can be styled per-element, named, layered, and resized freely on the canvas. Bind any widget to any of the 291+ sensor channels.</p>
+    </div>
+
+    <div class="widget-grid" data-reveal>
+
+      <div class="widget-card">
+        <div class="widget-preview wp-value">
+          <span class="wp-label">CPU TEMP</span>
+          <span class="wp-val">59.3</span>
+          <span class="wp-unit">°C</span>
+        </div>
+        <div class="widget-info">
+          <h4>Sensor Value</h4>
+          <p>Large number readout with label and unit. The simplest way to spotlight a single metric.</p>
+        </div>
+      </div>
+
+      <div class="widget-card">
+        <div class="widget-preview wp-bar">
+          <span class="wp-label">CPU LOAD</span>
+          <div class="wp-track"><div class="wp-fill" style="width:35%"></div></div>
+          <span class="wp-val-sm">35 %</span>
+        </div>
+        <div class="widget-info">
+          <h4>Sensor Bar</h4>
+          <p>Horizontal progress bar showing value against a configurable min/max range.</p>
+        </div>
+      </div>
+
+      <div class="widget-card">
+        <div class="widget-preview wp-spark">
+          <span class="wp-label">GPU LOAD (60S)</span>
+          <svg viewBox="0 0 120 40" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#03dac6" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#03dac6" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,35 C10,30 15,20 25,22 S40,12 50,15 S65,8 75,10 S90,18 100,14 S110,20 120,18 L120,40 L0,40 Z" fill="url(#sg)"/>
+            <path d="M0,35 C10,30 15,20 25,22 S40,12 50,15 S65,8 75,10 S90,18 100,14 S110,20 120,18" fill="none" stroke="#03dac6" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="widget-info">
+          <h4>Sparkline</h4>
+          <p>Area chart of the last 60 data points — great for spotting trends and spikes over time.</p>
+        </div>
+      </div>
+
+      <div class="widget-card">
+        <div class="widget-preview wp-gauge">
+          <svg viewBox="0 0 100 80" width="90" height="72">
+            <path d="M 14 72 A 38 38 0 1 1 86 72" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="7" stroke-linecap="round"/>
+            <path d="M 14 72 A 38 38 0 0 1 74 22" fill="none" stroke="#7c6ef5" stroke-width="7" stroke-linecap="round"/>
+            <text x="50" y="54" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="Inter,sans-serif">59%</text>
+          </svg>
+        </div>
+        <div class="widget-info">
+          <h4>Gauge</h4>
+          <p>Circular arc gauge with a coloured fill over a subtle track. Clean and compact.</p>
+        </div>
+      </div>
+
+      <div class="widget-card">
+        <div class="widget-preview wp-clock">
+          <span class="wp-clock-time">14:27</span>
+        </div>
+        <div class="widget-info">
+          <h4>Clock</h4>
+          <p>Live local time display with configurable format, font and colour. Updates every second.</p>
+        </div>
+      </div>
+
+      <div class="widget-card">
+        <div class="widget-preview wp-text">
+          <span>My Rig</span>
+        </div>
+        <div class="widget-info">
+          <h4>Text</h4>
+          <p>Static label for headings, section titles or decorative text. Full typography control.</p>
+        </div>
+      </div>
+
+      <div class="widget-card">
+        <div class="widget-preview wp-image">
+          <div class="wp-image-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+        </div>
+        <div class="widget-info">
+          <h4>Image</h4>
+          <p>Upload any image — your logo, a background, a watermark. Control fit and opacity.</p>
+        </div>
+      </div>
+
+      <div class="widget-card widget-card--custom">
+        <div class="widget-preview wp-custom">
+          <div class="wp-custom-code">
+            <span class="cc-t">HTML</span>
+            <span class="cc-p">/ CSS</span>
+            <span class="cc-p">/ JS</span>
+          </div>
+          <div class="wp-custom-arrow">→</div>
+          <div class="wp-custom-preview">
+            <div class="wp-custom-ring"></div>
+          </div>
+        </div>
+        <div class="widget-info">
+          <h4>Custom HTML</h4>
+          <p>Write anything. Full HTML/CSS/JS in Monaco with live preview. Sensor data via postMessage API.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TECH ═══════════ -->
+<section class="sec sec--dark" id="tech">
+  <div class="container">
+    <div class="sec-head sec-head--light" data-reveal>
+      <div class="label">Tech Stack</div>
+      <h2>Solid foundations, modern tools</h2>
+    </div>
+    <div class="tech-list" data-reveal>
+      <div class="tech-row">
+        <div class="tech-block">
+          <div class="tech-layer-label">Desktop</div>
+          <div class="tech-chips">
+            <span class="chip">Electron 33</span>
+            <span class="chip">electron-vite</span>
+            <span class="chip chip--dim">Node.js 20</span>
+          </div>
+        </div>
+        <div class="tech-block">
+          <div class="tech-layer-label">Frontend</div>
+          <div class="tech-chips">
+            <span class="chip">React 18</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">Material UI 6</span>
+            <span class="chip chip--dim">Vite</span>
+            <span class="chip chip--dim">Recharts</span>
+          </div>
+        </div>
+        <div class="tech-block">
+          <div class="tech-layer-label">Service</div>
+          <div class="tech-chips">
+            <span class="chip">ASP.NET Core 9</span>
+            <span class="chip">SignalR</span>
+            <span class="chip chip--dim">Kestrel</span>
+          </div>
+        </div>
+        <div class="tech-block">
+          <div class="tech-layer-label">Hardware</div>
+          <div class="tech-chips">
+            <span class="chip">LibreHardwareMonitor</span>
+            <span class="chip chip--dim">Windows Service</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DOWNLOAD ═══════════ -->
+<section class="sec" id="download">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <div class="label">Download</div>
+      <h2>Get XStat for free</h2>
+      <p>Windows 10 / 11 — 64-bit. Administrator rights required for hardware sensor access.</p>
+    </div>
+
+    <div class="dl-grid" data-reveal>
+      <div class="dl-card dl-card--featured">
+        <div class="dl-badge">Recommended</div>
+        <div class="dl-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <h3>Installer</h3>
+        <p>NSIS installer that sets up the app, registers the hardware Windows Service, and creates Start Menu shortcuts.</p>
+        <div class="dl-meta">
+          <span>Windows 10/11 · 64-bit</span>
+          <span>~150 MB installed</span>
+          <span>Requires admin on install</span>
+        </div>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases/latest" class="btn btn-primary" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Installer
+        </a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Portable</h3>
+        <p>No installer needed. Extract the ZIP anywhere and run XStat.exe as administrator. All data stays inside the app folder.</p>
+        <div class="dl-meta">
+          <span>No install required</span>
+          <span>Run as admin</span>
+        </div>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases/latest" class="btn btn-outline" target="_blank" rel="noopener">
+          Download Portable
+        </a>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </div>
+        <h3>Build from Source</h3>
+        <p>Node 20+ and .NET 9 SDK required. Clone, install, and run with one command using the included dev script.</p>
+        <div class="dl-meta">
+          <span>Node.js 20+</span>
+          <span>.NET 9 SDK</span>
+        </div>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring" class="btn btn-outline" target="_blank" rel="noopener">
+          View on GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="dl-quickstart" data-reveal>
+      <div class="qs-label">Quick start from source</div>
+      <div class="qs-code">
+        <pre><code><span class="c"># Clone and install</span>
+git clone https://github.com/Inside4ndroid/XStat-Hardware-Monitoring.git
+cd XStat-Hardware-Monitoring/src/app
+npm install
+
+<span class="c"># Start in dev mode (will prompt for elevation)</span>
+npm run dev:admin</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-left">
+      <a class="footer-brand" href="#">
+        <img src="images/logo.png" alt="XStat" />
+        <span>XStat</span>
+      </a>
+      <p>Open-source hardware monitoring for Windows.<br />Built by <a href="https://github.com/Inside4ndroid" target="_blank" rel="noopener">Inside4ndroid Studios</a>.</p>
+      <div class="footer-legal">MIT License · © 2026 Inside4ndroid Studios</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-col-title">Project</div>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases" target="_blank" rel="noopener">Releases</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/issues" target="_blank" rel="noopener">Issues</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Docs</div>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/blob/main/docs/installation.md" target="_blank" rel="noopener">Installation</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/blob/main/docs/development.md" target="_blank" rel="noopener">Development</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/blob/main/docs/architecture.md" target="_blank" rel="noopener">Architecture</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/blob/main/docs/widgets.md" target="_blank" rel="noopener">Widgets</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
     <div class="nav-inner">
       <a class="nav-brand" href="#">
         <img src="images/logo.png" alt="XStat" class="nav-logo" />
