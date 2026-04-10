@@ -84,6 +84,14 @@
         </div>
 
         <div class="docs-nav-group">
+          <div class="docs-nav-label">Android Companion</div>
+          <a href="#android" class="docs-nav-link">Overview</a>
+          <a href="#android-install" class="docs-nav-link">Installing the APK</a>
+          <a href="#android-discovery" class="docs-nav-link">Auto-Discovery</a>
+          <a href="#android-tv" class="docs-nav-link">Android TV</a>
+        </div>
+
+        <div class="docs-nav-group">
           <div class="docs-nav-label">Widget Reference</div>
           <a href="#widget-common" class="docs-nav-link">Common Properties</a>
           <a href="#widget-value" class="docs-nav-link">Sensor Value</a>
@@ -328,9 +336,111 @@ npm run dev:admin</code></pre>
           <tr><td><strong>Service port</strong></td><td>The TCP port Kestrel listens on. Range 1024–65535. Click Apply to restart the service with the new port. Default: <code class="doc-code-inline">9421</code>.</td></tr>
           <tr><td><strong>Poll interval</strong></td><td>How often LibreHardwareMonitor reads sensor values. Range 250 ms–5 s. Shorter = lower latency, higher CPU overhead.</td></tr>
           <tr><td><strong>LAN Web Panel URL</strong></td><td>The local IP address and port to open the panel in a browser. Also shown as a QR code.</td></tr>
+          <tr><td><strong>Start minimised to tray</strong></td><td>Launch XStat minimised to the system tray instead of opening the main window. Toggle takes effect on the next launch.</td></tr>
+          <tr><td><strong>Start with Windows</strong></td><td>Add XStat to the Windows login items so it starts automatically when you sign in. Uses <code class="doc-code-inline">app.setLoginItemSettings</code> in the production build.</td></tr>
         </tbody>
       </table>
       <p>Settings are persisted to <code class="doc-code-inline">%APPDATA%\xstat\xstat-config.json</code>.</p>
+    </section>
+
+    <!-- ════════════════ ANDROID COMPANION ════════════════ -->
+    <section class="doc-section" id="android">
+      <div class="doc-section-label">Android Companion</div>
+      <h2 class="doc-h2">Overview</h2>
+      <p class="doc-lead">The XStat Android companion app automatically discovers your XStat PC on the local network using UDP broadcast and displays your custom sensor panel in a full-screen WebView. No IP addresses to configure.</p>
+
+      <div class="doc-cards">
+        <div class="doc-card">
+          <div class="doc-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M16 16l4 4"/></svg>
+          </div>
+          <div><strong>Zero config</strong><p>Open the app and it finds XStat automatically. No IP addresses, no pairing.</p></div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <div><strong>Universal</strong><p>Works on Android phones, tablets, and Android TV (tested on NVIDIA SHIELD).</p></div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div><strong>Auto-recovery</strong><p>If the PC goes offline, the app detects it and returns to the discovery screen automatically.</p></div>
+        </div>
+      </div>
+
+      <h3 class="doc-h3">Screenshots</h3>
+      <div class="doc-img-row">
+        <figure class="doc-figure">
+          <img src="images/android-screenshots/Screenshot 2026-04-10 230600.png" alt="Splash / searching screen" loading="lazy" />
+          <figcaption>Splash screen — searching for XStat on the network</figcaption>
+        </figure>
+        <figure class="doc-figure">
+          <img src="images/android-screenshots/Screenshot 2026-04-10 230514.png" alt="No panel configured" loading="lazy" />
+          <figcaption>Connected — panel not yet configured on the PC</figcaption>
+        </figure>
+        <figure class="doc-figure">
+          <img src="images/android-screenshots/Screenshot 2026-04-10 230500.png" alt="Connection lost" loading="lazy" />
+          <figcaption>Auto-recovery screen shown when XStat goes offline</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="doc-section" id="android-install">
+      <h2 class="doc-h2">Installing the APK</h2>
+      <div class="doc-callout doc-callout--info">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>The XStat companion app is distributed as a direct APK download. You need to allow installation from unknown sources on your device.</div>
+      </div>
+      <ol class="doc-ol">
+        <li>Download <code class="doc-code-inline">XStat-Companion-0.3.0.apk</code> from the <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases" target="_blank" rel="noopener" class="doc-link">Releases page</a>.</li>
+        <li>On your Android device, open <strong>Settings → Security</strong> (or <strong>Privacy</strong> on some devices) and enable <strong>Install unknown apps</strong> for your file manager or browser.</li>
+        <li>Open the downloaded APK file and tap <strong>Install</strong>.</li>
+        <li>Once installed, open <strong>XStat</strong> from your app drawer. Make sure your phone/tablet is on the same Wi-Fi network as your PC.</li>
+      </ol>
+      <h3 class="doc-h3">Android TV / SHIELD</h3>
+      <p>Sideload the APK via ADB or a USB file manager. The app includes a TV-optimised leanback launcher entry and a 320×180 TV banner.</p>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header"><span>ADB sideload</span></div>
+        <pre><code>adb connect &lt;shield-ip&gt;:5555
+adb install -r XStat-Companion-0.3.0.apk
+adb shell am start -n net.xstat.companion/.SplashActivity</code></pre>
+      </div>
+    </section>
+
+    <section class="doc-section" id="android-discovery">
+      <h2 class="doc-h2">Auto-Discovery</h2>
+      <p>XStat uses a UDP broadcast beacon to announce itself on the local network. The Android app listens for this beacon and connects automatically — no manual configuration required.</p>
+      <table class="doc-table">
+        <thead><tr><th>Detail</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Protocol</td><td>UDP broadcast</td></tr>
+          <tr><td>Port</td><td><code class="doc-code-inline">47210</code></td></tr>
+          <tr><td>Beacon payload</td><td><code class="doc-code-inline">XSTAT_HERE:{port}</code></td></tr>
+          <tr><td>Broadcast interval</td><td>Every 2 seconds</td></tr>
+          <tr><td>Discovery timeout</td><td>15 seconds</td></tr>
+        </tbody>
+      </table>
+      <p>The beacon is sent by the <code class="doc-code-inline">DiscoveryBeaconService</code> background service running inside the .NET hardware service process on the PC. No additional firewall rules are required for UDP broadcast within the same subnet.</p>
+      <h3 class="doc-h3">Connection health monitoring</h3>
+      <p>Once connected, the app pings <code class="doc-code-inline">/health</code> on the XStat service every 5 seconds. After 3 consecutive failures (15 seconds total) it concludes the host is offline and returns to the discovery splash screen to search again.</p>
+    </section>
+
+    <section class="doc-section" id="android-tv">
+      <h2 class="doc-h2">Android TV</h2>
+      <p>The companion app fully supports Android TV. It ships with a 320×180 TV banner and registers a leanback launcher entry so it appears in your TV's app grid.</p>
+      <table class="doc-table">
+        <thead><tr><th>Feature</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>TV banner</td><td>320×180 px — shown in the Android TV launcher</td></tr>
+          <tr><td>Leanback support</td><td>Registered via <code class="doc-code-inline">CATEGORY_LEANBACK_LAUNCHER</code></td></tr>
+          <tr><td>Tested on</td><td>NVIDIA SHIELD Android TV (Android 11, SDK 30)</td></tr>
+          <tr><td>Min SDK</td><td>21 (Android 5.0 Lollipop)</td></tr>
+          <tr><td>Target SDK</td><td>35</td></tr>
+        </tbody>
+      </table>
+      <p>The app runs in full-screen immersive mode with no navigation bars or status bar. On TV remote, the Back button is intercepted for WebView history navigation before exiting.</p>
     </section>
 
     <!-- ════════════════ WIDGET REFERENCE ════════════════ -->
@@ -728,6 +838,7 @@ Electron Renderer          LAN Browser
       <div class="footer-col">
         <div class="footer-col-title">Docs</div>
         <a href="docs.html#installer">Installation</a>
+        <a href="docs.html#android">Android App</a>
         <a href="docs.html#dev-setup">Development</a>
         <a href="docs.html#arch-overview">Architecture</a>
         <a href="docs.html#widget-common">Widgets</a>

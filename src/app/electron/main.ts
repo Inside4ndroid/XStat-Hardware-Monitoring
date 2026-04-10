@@ -14,15 +14,17 @@ import { readFileSync, writeFileSync } from 'fs'
 
 // ── Persistent config ─────────────────────────────────────────────────────────
 function configPath(): string { return join(app.getPath('userData'), 'xstat-config.json') }
-interface AppConfig { port: number }
+interface AppConfig { port: number; startMinimized: boolean; startWithWindows: boolean }
 function readAppConfig(): AppConfig {
-  try { return JSON.parse(readFileSync(configPath(), 'utf8')) as AppConfig } catch { return { port: 9421 } }
+  try { return { port: 9421, startMinimized: false, startWithWindows: false, ...JSON.parse(readFileSync(configPath(), 'utf8')) as Partial<AppConfig> } }
+  catch { return { port: 9421, startMinimized: false, startWithWindows: false } }
 }
 function writeAppConfig(cfg: AppConfig): void {
   writeFileSync(configPath(), JSON.stringify(cfg, null, 2))
 }
 
-let SERVICE_PORT = readAppConfig().port
+let appConfig    = readAppConfig()
+let SERVICE_PORT = appConfig.port
 let SERVICE_URL  = `http://localhost:${SERVICE_PORT}`
 const IS_DEV       = !app.isPackaged
 
@@ -151,7 +153,7 @@ function createMainWindow() {
   mainWindow.once('ready-to-show', () => {
     splashWindow?.close()
     splashWindow = null
-    mainWindow?.show()
+    if (!appConfig.startMinimized) mainWindow?.show()
   })
 
   mainWindow.on('close', (e) => {
@@ -194,7 +196,8 @@ ipcMain.handle('service:url',      () => SERVICE_URL)
 ipcMain.handle('service:getPort',  () => SERVICE_PORT)
 ipcMain.handle('service:setPort',  async (_event, port: number) => {
   port = Math.max(1024, Math.min(65535, Math.floor(port)))
-  writeAppConfig({ port })
+  appConfig.port = port
+  writeAppConfig(appConfig)
   SERVICE_PORT = port
   SERVICE_URL  = `http://localhost:${port}`
   stopService()
@@ -212,6 +215,18 @@ ipcMain.handle('service:panelUrl', () => {
     }
   }
   return `http://localhost:${SERVICE_PORT}`
+})
+
+ipcMain.handle('settings:getStartMinimized',   () => appConfig.startMinimized)
+ipcMain.handle('settings:setStartMinimized',   (_event, value: boolean) => {
+  appConfig.startMinimized = value
+  writeAppConfig(appConfig)
+})
+ipcMain.handle('settings:getStartWithWindows', () => appConfig.startWithWindows)
+ipcMain.handle('settings:setStartWithWindows', (_event, value: boolean) => {
+  appConfig.startWithWindows = value
+  writeAppConfig(appConfig)
+  if (!IS_DEV) app.setLoginItemSettings({ openAtLogin: value, name: 'XStat' })
 })
 
 // ── Widget Editor window ──────────────────────────────────────────────────
@@ -274,6 +289,7 @@ ipcMain.handle('widget-editor:maximize', () => {
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ App lifecycle Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 app.whenReady().then(async () => {
+  if (!IS_DEV) app.setLoginItemSettings({ openAtLogin: appConfig.startWithWindows, name: 'XStat' })
   createSplashWindow()
   await startService()
   createMainWindow()

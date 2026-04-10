@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base app theme — dark, no title bar -->
+    <style name="Theme.XStatCompanion" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/bg</item>
+        <item name="colorAccent">@color/cyan</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text_muted</item>
+    </style>
+
+    <!-- Splash theme — same dark window so there is no white flash on launch -->
+    <style name="Theme.XStatCompanion.Splash" parent="Theme.XStatCompanion">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

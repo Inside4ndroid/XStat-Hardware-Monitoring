@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XStat</string>
+    <string name="searching">Searching for XStat on your network…</string>
+    <string name="error_no_host">No XStat instance found on the local network.\n\nMake sure XStat is running on a PC connected to the same Wi-Fi network.</string>
+    <string name="error_load_failed">Failed to load the XStat panel.\n\nError: %1$s</string>
+    <string name="retry">Try Again</string>
+</resources>

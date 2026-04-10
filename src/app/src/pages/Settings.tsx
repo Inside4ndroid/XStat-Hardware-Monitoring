@@ -38,10 +38,14 @@ export const Settings: React.FC = () => {
   const [portInput, setPortInput] = useState<string>('9421')
   const [portSaving, setPortSaving] = useState(false)
   const [portSaved, setPortSaved] = useState(false)
+  const [startMinimized, setStartMinimized] = useState(false)
+  const [startWithWindows, setStartWithWindows] = useState(false)
 
   useEffect(() => {
     window.xstat?.service?.getPanelUrl?.().then(setPanelUrl)
     window.xstat?.service?.getPort?.().then(p => setPortInput(String(p)))
+    window.xstat?.settings?.getStartMinimized?.().then(setStartMinimized)
+    window.xstat?.settings?.getStartWithWindows?.().then(setStartWithWindows)
   }, [])
 
   const applyPort = async () => {
@@ -207,14 +211,32 @@ export const Settings: React.FC = () => {
       <List disablePadding>
         <ListItem>
           <FormControlLabel
-            control={<Switch defaultChecked color="primary" />}
+            control={
+              <Switch
+                checked={startMinimized}
+                onChange={e => {
+                  setStartMinimized(e.target.checked)
+                  window.xstat?.settings?.setStartMinimized?.(e.target.checked)
+                }}
+                color="primary"
+              />
+            }
             label="Start minimised to tray"
           />
         </ListItem>
         <Divider />
         <ListItem>
           <FormControlLabel
-            control={<Switch defaultChecked color="primary" />}
+            control={
+              <Switch
+                checked={startWithWindows}
+                onChange={e => {
+                  setStartWithWindows(e.target.checked)
+                  window.xstat?.settings?.setStartWithWindows?.(e.target.checked)
+                }}
+                color="primary"
+              />
+            }
             label="Start with Windows"
           />
         </ListItem>

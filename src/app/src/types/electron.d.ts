@@ -16,6 +16,12 @@ declare global {
         getPort(): Promise<number>
         setPort(port: number): Promise<number>
       }
+      settings: {
+        getStartMinimized(): Promise<boolean>
+        setStartMinimized(value: boolean): Promise<void>
+        getStartWithWindows(): Promise<boolean>
+        setStartWithWindows(value: boolean): Promise<void>
+      }
       widgetEditor: {
         open(widget: unknown): Promise<void>
         getData(): Promise<unknown>

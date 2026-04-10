@@ -15,6 +15,12 @@ contextBridge.exposeInMainWorld('xstat', {
     getPort:     (): Promise<number> => ipcRenderer.invoke('service:getPort'),
     setPort:     (port: number): Promise<number> => ipcRenderer.invoke('service:setPort', port),
   },
+  settings: {
+    getStartMinimized:   (): Promise<boolean> => ipcRenderer.invoke('settings:getStartMinimized'),
+    setStartMinimized:   (value: boolean): Promise<void> => ipcRenderer.invoke('settings:setStartMinimized', value),
+    getStartWithWindows: (): Promise<boolean> => ipcRenderer.invoke('settings:getStartWithWindows'),
+    setStartWithWindows: (value: boolean): Promise<void> => ipcRenderer.invoke('settings:setStartWithWindows', value),
+  },
   widgetEditor: {
     /** Open the editor window for a widget (or focus + reinit if already open) */
     open:     (widget: unknown) => ipcRenderer.invoke('widget-editor:open', widget),

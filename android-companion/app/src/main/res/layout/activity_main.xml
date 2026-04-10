@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Full-screen: WebView fills everything; error overlay shown when needed -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <!-- The full-screen WebView -->
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Error / no-host view, hidden by default -->
+    <RelativeLayout
+        android:id="@+id/errorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/bg">
+
+        <LinearLayout
+            android:id="@+id/errorContent"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/errorLogo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@mipmap/ic_launcher"
+                android:alpha="0.4"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/errorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/text_muted"
+                android:textSize="15sp"
+                android:lineSpacingMultiplier="1.4"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="24dp" />
+
+            <Button
+                android:id="@+id/retryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/retry"
+                android:backgroundTint="@color/purple"
+                android:textColor="@color/text"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

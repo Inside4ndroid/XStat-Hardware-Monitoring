@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- XStat theme palette -->
+    <color name="bg">#0c0c0e</color>
+    <color name="bg_surface">#141418</color>
+    <color name="purple">#7c6ef5</color>
+    <color name="cyan">#03dac6</color>
+    <color name="text">#f0f0f4</color>
+    <color name="text_muted">#8080a0</color>
+</resources>

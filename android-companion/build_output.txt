@@ -1,0 +1,65 @@
+﻿> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:checkDebugAarMetadata
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:parseDebugLocalResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:desugarDebugFileDependencies
+> Task :app:mergeDebugStartupProfile UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses
+> Task :app:mergeDebugResources
+> Task :app:mergeDebugJniLibFolders
+> Task :app:mergeLibDexDebug
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:processDebugResources
+> Task :app:mergeExtDexDebug
+
+> Task :app:compileDebugKotlin
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:42:40 'FLAG_FULLSCREEN: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:43:40 'FLAG_FULLSCREEN: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:71:13 'setter for databaseEnabled: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:86:26 This declaration overrides deprecated member but not marked as deprecated itself. Please add @Deprecated annotation or suppress. See https://youtrack.jetbrains.com/issue/KT-47902 for details
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:118:19 'setter for systemUiVisibility: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:119:18 'SYSTEM_UI_FLAG_IMMERSIVE_STICKY: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:120:21 'SYSTEM_UI_FLAG_FULLSCREEN: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:121:21 'SYSTEM_UI_FLAG_HIDE_NAVIGATION: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:122:21 'SYSTEM_UI_FLAG_LAYOUT_STABLE: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:123:21 'SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:124:21 'SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:133:18 This declaration overrides deprecated member but not marked as deprecated itself. Please add @Deprecated annotation or suppress. See https://youtrack.jetbrains.com/issue/KT-47902 for details
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/MainActivity.kt:137:19 'onBackPressed(): Unit' is deprecated. This method has been deprecated in favor of using the
+      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.
+      The OnBackPressedDispatcher controls how back button events are dispatched
+      to one or more {@link OnBackPressedCallback} objects.
+w: file:///C:/Users/rob_w/MyFiles/Development/DevTests/xstat/android-companion/app/src/main/java/net/xstat/companion/SplashActivity.kt:62:9 'overridePendingTransition(Int, Int): Unit' is deprecated. Deprecated in Java
+
+> Task :app:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:processDebugJavaRes
+> Task :app:dexBuilderDebug
+> Task :app:mergeProjectDexDebug
+> Task :app:mergeDebugJavaResource
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+
+BUILD SUCCESSFUL in 16s
+34 actionable tasks: 24 executed, 10 up-to-date

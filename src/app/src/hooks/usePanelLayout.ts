@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import type { PanelLayout, PanelWidget, LayoutItem, WidgetType } from '@/types/panel'
 import { WIDGET_DEFAULTS } from '@/types/panel'
 
-const STORAGE_KEY = 'xstat:panels:v4'
+export const STORAGE_KEY = 'xstat:panels:v4'
 const SERVICE_BASE = 'http://localhost:9421'
 
 export const CUSTOM_DEFAULT_HTML = `<!DOCTYPE html>
@@ -95,7 +95,7 @@ export const CUSTOM_DEFAULT_HTML = `<!DOCTYPE html>
 </body></html>`
 
 /** Push layout to the service, retrying a few times on failure (handles startup race). */
-async function pushLayoutToService(layout: PanelLayout, retries = 5): Promise<void> {
+export async function pushLayoutToService(layout: PanelLayout, retries = 5): Promise<void> {
   for (let i = 0; i < retries; i++) {
     try {
       const r = await fetch(`${SERVICE_BASE}/api/panel-layout`, {
@@ -109,7 +109,7 @@ async function pushLayoutToService(layout: PanelLayout, retries = 5): Promise<vo
   }
 }
 
-interface PanelsState {
+export interface PanelsState {
   panels: PanelLayout[]
   activePanelId: string
 }

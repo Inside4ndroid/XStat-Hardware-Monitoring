@@ -7,7 +7,7 @@
 <p align="center">
   Open-source real-time hardware monitoring and live sensor panel for Windows.
   <br />
-  Built with Electron, React, and ASP.NET Core 9.
+  Built with Electron, React, ASP.NET Core 9, and an Android companion app.
 </p>
 
 <p align="center">
@@ -16,11 +16,13 @@
   <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Inside4ndroid/XStat-Hardware-Monitoring?style=flat-square" /></a>
   <img alt="Platform: Windows" src="https://img.shields.io/badge/platform-Windows-blue?style=flat-square" />
   <img alt=".NET 9" src="https://img.shields.io/badge/.NET-9-purple?style=flat-square" />
+  <img alt="Android 5.0+" src="https://img.shields.io/badge/Android-5.0%2B-green?style=flat-square&logo=android" />
 </p>
 
 <p align="center">
   <a href="https://xstat.ddns.net">🌐 Website</a> ·
   <a href="https://xstat.ddns.net/docs.html#installer">📥 Install</a> ·
+  <a href="https://xstat.ddns.net/docs.html#android">📱 Android App</a> ·
   <a href="https://xstat.ddns.net/docs.html#dev-setup">🛠 Develop</a> ·
   <a href="https://xstat.ddns.net/docs.html#arch-overview">🏗 Architecture</a> ·
   <a href="https://xstat.ddns.net/docs.html#widget-common">🧩 Widgets</a>
@@ -33,6 +35,8 @@
 XStat is a desktop hardware-monitoring application for Windows. It reads live sensor data — CPU temperature, GPU load, RAM usage, fan speeds, clock frequencies, and dozens more — and lets you build beautiful, fully custom display panels.
 
 Panels run both inside the Electron desktop app **and** as a responsive web page served over your local network so any phone, tablet, or second monitor can show your sensor data in real time.
+
+The **XStat Android companion app** auto-discovers your PC on the network via UDP broadcast and displays your panel full-screen — zero configuration required. Works on phones, tablets, and Android TV.
 
 ---
 
@@ -54,6 +58,12 @@ Panels run both inside the Electron desktop app **and** as a responsive web page
 
 ![Custom Widget Editor](website-source/images/screenshots/Screenshot%202026-04-10%20132354.png)
 
+**Android Companion** — auto-discovers XStat and displays the panel full-screen
+
+| Searching | No panel configured | Connection lost |
+|---|---|---|
+| ![Searching](website-source/images/android-screenshots/Screenshot%202026-04-10%20230600.png) | ![No panel](website-source/images/android-screenshots/Screenshot%202026-04-10%20230514.png) | ![Lost](website-source/images/android-screenshots/Screenshot%202026-04-10%20230500.png) |
+
 ---
 
 ## Features
@@ -65,6 +75,10 @@ Panels run both inside the Electron desktop app **and** as a responsive web page
 | **Widget library** | Value, Bar, Sparkline, Gauge, Clock, Text, Image, Custom HTML |
 | **Custom widgets** | Full HTML/CSS/JS editor with Monaco, live preview, sensor data injection |
 | **LAN web panel** | Serve your panel to any device on your network — QR code included |
+| **Android companion** | Auto-discovers XStat via UDP, full-screen panel on phones/tablets/Android TV |
+| **Auto-reconnect** | Android app detects connection loss and restarts discovery automatically |
+| **Startup options** | Start minimised to tray; Start with Windows (login item) |
+| **Panel persistence** | Last active panel is pushed automatically on every app launch |
 | **Per-element styling** | Individual colour, font, size, bold, italic controls per widget element |
 | **Visibility toggles** | Toggle label / value / unit / accent on/off per widget |
 | **Layer ordering** | Send to back, send backward, bring forward, bring to front |
@@ -87,6 +101,7 @@ Panels run both inside the Electron desktop app **and** as a responsive web page
 | Hardware service | [ASP.NET Core 9](https://dotnet.microsoft.com/) + [LibreHardwareMonitorLib](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) |
 | Real-time push | [SignalR](https://learn.microsoft.com/aspnet/core/signalr/introduction) WebSocket hub |
 | Windows service | `Microsoft.Extensions.Hosting.WindowsServices` |
+| Android app | Kotlin + AndroidX + WebView, min SDK 21, signed APK |
 
 ---
 
@@ -131,10 +146,14 @@ xstat/
 │       ├── Controllers/        # REST API controllers
 │       ├── Hardware/            # LibreHardwareMonitor wrapper
 │       ├── Hubs/               # SignalR sensor hub
-│       └── Services/           # SensorBroadcastService, PanelLayoutStore
+│       └── Services/           # SensorBroadcastService, PanelLayoutStore, DiscoveryBeaconService
+├── android-companion/          # Android companion app (Kotlin)
+│   └── app/src/main/
+│       ├── java/net/xstat/companion/   # SplashActivity, MainActivity, DiscoveryManager
+│       └── res/                # Layouts, icons, TV banner
 ├── website-source/             # Static marketing website (GitHub Pages)
-├── docs/                       # Developer and user documentation
 ├── build.ps1                   # Full production build script
+├── release.ps1                 # GitHub release automation
 └── xstat.sln                   # Visual Studio solution
 ```
 
@@ -145,6 +164,7 @@ xstat/
 | Document | Description |
 |---|---|
 | [Installation Guide](https://xstat.ddns.net/docs.html#installer) | How to install and run XStat |
+| [Android Companion](https://xstat.ddns.net/docs.html#android) | Install and use the Android app |
 | [Development Setup](https://xstat.ddns.net/docs.html#dev-setup) | Set up a local dev environment |
 | [Building for Production](https://xstat.ddns.net/docs.html#dev-build) | Build the installer and service |
 | [Architecture Overview](https://xstat.ddns.net/docs.html#arch-overview) | How the pieces fit together |

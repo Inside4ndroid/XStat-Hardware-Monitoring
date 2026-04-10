@@ -33,6 +33,7 @@
       <a href="#features">Features</a>
       <a href="#showcase">Showcase</a>
       <a href="#widgets">Widgets</a>
+      <a href="#android">Android</a>
       <a href="#download">Download</a>
       <a href="docs.html">Docs</a>
       <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring" class="nav-gh" target="_blank" rel="noopener" aria-label="GitHub">
@@ -78,6 +79,7 @@
         <span>8 Widget Types</span>
         <span>LAN Panel</span>
         <span>SignalR Push</span>
+        <span>Android TV</span>
       </div>
     </div>
 
@@ -229,6 +231,14 @@
         </div>
         <h4>Configurable Port</h4>
         <p>Change the service port directly from the Settings page. The service restarts automatically &mdash; no config files to edit by hand.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h4>Android Companion</h4>
+        <p>The XStat Android app auto-discovers your PC on the network and displays your panel full-screen. Works on phones, tablets &amp; Android TV.</p>
       </div>
 
       <div class="feat-card feat-card--accent">
@@ -444,6 +454,74 @@
   </div>
 </section>
 
+<!-- ----------- ANDROID ----------- -->
+<section class="sec" id="android">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <div class="label">Android Companion</div>
+      <h2>Your panel, on every screen.</h2>
+      <p>The XStat companion app for Android automatically finds your XStat PC on the local network and displays your custom sensor panel full-screen &mdash; no setup, no typing IP addresses.</p>
+    </div>
+
+    <div class="feat-split feat-split--imgright" data-reveal>
+      <div class="feat-split-copy">
+        <div class="feat-eyebrow">Automatic Discovery</div>
+        <h3>Opens your panel in seconds.</h3>
+        <p>XStat broadcasts its presence over UDP. The Android app listens for the beacon, connects automatically, and loads your panel in a full-screen WebView. If the connection drops, it goes back to searching &mdash; no manual reconnect needed.</p>
+        <ul class="feat-list">
+          <li>Zero-config UDP discovery &mdash; no IP addresses to enter</li>
+          <li>Full-screen WebView with live sensor data</li>
+          <li>Automatic reconnect if the PC goes offline</li>
+          <li>Works on phones, tablets &amp; Android TV (including SHIELD)</li>
+          <li>Supports Android 5.0+ (API level 21)</li>
+        </ul>
+        <div style="margin-top:1.5rem">
+          <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases/latest" class="btn btn-primary" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download APK
+          </a>
+        </div>
+      </div>
+      <div class="feat-split-img">
+        <div class="screenshot-frame screenshot-frame--mobile">
+          <img src="images/android-screenshots/Screenshot 2026-04-10 230600.png"
+               alt="XStat Android companion splash screen" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <div class="android-screens" data-reveal>
+      <div class="android-screen-card">
+        <div class="screenshot-frame screenshot-frame--mobile">
+          <img src="images/android-screenshots/Screenshot 2026-04-10 230600.png" alt="Searching for XStat" loading="lazy" />
+        </div>
+        <div class="android-screen-caption">
+          <strong>Searching</strong>
+          <p>Animated splash discovers XStat on your network automatically via UDP broadcast.</p>
+        </div>
+      </div>
+      <div class="android-screen-card">
+        <div class="screenshot-frame screenshot-frame--mobile">
+          <img src="images/android-screenshots/Screenshot 2026-04-10 230514.png" alt="No panel configured" loading="lazy" />
+        </div>
+        <div class="android-screen-caption">
+          <strong>Panel loaded</strong>
+          <p>Your custom sensor panel displays full-screen with live data pushed via SignalR.</p>
+        </div>
+      </div>
+      <div class="android-screen-card">
+        <div class="screenshot-frame screenshot-frame--mobile">
+          <img src="images/android-screenshots/Screenshot 2026-04-10 230500.png" alt="Connection lost" loading="lazy" />
+        </div>
+        <div class="android-screen-caption">
+          <strong>Auto-recovery</strong>
+          <p>If XStat goes offline the app detects it and returns to the search screen automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ----------- TECH ----------- -->
 <section class="sec sec--dark" id="tech">
   <div class="container">
@@ -548,6 +626,22 @@
           View on GitHub
         </a>
       </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h3>Android Companion</h3>
+        <p>Auto-discovers XStat on your network and displays your panel full-screen. Works on phones, tablets and Android TV.</p>
+        <div class="dl-meta">
+          <span>Android 5.0+</span>
+          <span>~800 KB APK</span>
+          <span>Side-load required</span>
+        </div>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases/latest" class="btn btn-outline" target="_blank" rel="noopener">
+          Download APK
+        </a>
+      </div>
     </div>
 
     <div class="dl-quickstart" data-reveal>
@@ -587,6 +681,7 @@ npm run dev:admin</code></pre>
       <div class="footer-col">
         <div class="footer-col-title">Docs</div>
         <a href="docs.html#installer">Installation</a>
+        <a href="docs.html#android">Android App</a>
         <a href="docs.html#dev-setup">Development</a>
         <a href="docs.html#arch-overview">Architecture</a>
         <a href="docs.html#widget-common">Widgets</a>

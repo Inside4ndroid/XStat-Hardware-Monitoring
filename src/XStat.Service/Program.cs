@@ -22,6 +22,7 @@ builder.Services.AddSingleton<HardwareMonitor>();
 builder.Services.AddSingleton<SensorBroadcastService>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<SensorBroadcastService>());
 builder.Services.AddSingleton<PanelLayoutStore>();
+builder.Services.AddHostedService<DiscoveryBeaconService>();
 
 builder.Services.AddSignalR(opts =>
 {

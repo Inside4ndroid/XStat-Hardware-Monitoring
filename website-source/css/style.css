@@ -915,12 +915,50 @@ ul { list-style: none; }
   border-color: var(--border);
 }
 
+.screenshot-frame--mobile {
+  max-width: 320px;
+  margin: 0 auto;
+  border-radius: 24px;
+}
+
+/* ════════════════════════════════════════════════════
+   ANDROID SECTION
+   ════════════════════════════════════════════════════ */
+.android-screens {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: clamp(52px, 7vw, 84px);
+}
+.android-screen-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.android-screen-caption {
+  text-align: center;
+}
+.android-screen-caption strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.android-screen-caption p {
+  font-size: 0.875rem;
+  color: var(--fg-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
 /* ════════════════════════════════════════════════════
    DOWNLOAD
    ════════════════════════════════════════════════════ */
 .dl-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
   gap: 16px;
   margin-bottom: 40px;
 }
@@ -1120,7 +1158,7 @@ ul { list-style: none; }
   .feat-split--imgright .feat-split-copy { order: 0; }
   .feat-split--imgright .feat-split-img { order: 0; }
 
-  .dl-grid { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; }
+  .dl-grid { grid-template-columns: 1fr 1fr; max-width: 680px; margin-inline: auto; }
   .dl-card--featured { margin-top: 12px; }
 }
 
