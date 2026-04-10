@@ -27,6 +27,7 @@ let SERVICE_URL  = `http://localhost:${SERVICE_PORT}`
 const IS_DEV       = !app.isPackaged
 
 let mainWindow:     BrowserWindow | null = null
+let splashWindow:   BrowserWindow | null = null
 let tray:           Tray | null = null
 let serviceProcess: ChildProcess | null = null
 let widgetEditorWindow: BrowserWindow | null = null
@@ -74,7 +75,7 @@ async function startService(): Promise<void> {
     : join(process.resourcesPath, 'service', 'XStat.Service.exe')
 
   console.log('[XStat] Starting hardware service:', exeName)
-  serviceProcess = spawn(exeName, [`--urls=http://0.0.0.0:${SERVICE_PORT}`], { detached: false, stdio: 'inherit' })
+  serviceProcess = spawn(exeName, [`--urls=http://0.0.0.0:${SERVICE_PORT}`], { detached: false, stdio: 'ignore', windowsHide: true })
   serviceProcess.on('error', (err) => console.error('[XStat] Service error:', err.message))
   serviceProcess.on('exit',  (code) => { console.log('[XStat] Service exited:', code); serviceProcess = null })
 
@@ -100,6 +101,28 @@ function stopService() {
 
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Window Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
+function createSplashWindow() {
+  splashWindow = new BrowserWindow({
+    width: 200,
+    height: 400,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    center: true,
+    show: true,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  })
+  if (IS_DEV) {
+    splashWindow.loadURL('http://localhost:5173/splash.html')
+  } else {
+    splashWindow.loadFile(join(__dirname, '../renderer/splash.html'))
+  }
+}
+
 function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
@@ -115,17 +138,21 @@ function createMainWindow() {
       nodeIntegration: false,
       sandbox: false,
     },
-    icon: join(__dirname, '../../public/icon.ico'),
+    icon: join(__dirname, '../renderer/icon.ico'),
   })
 
   if (IS_DEV) {
     mainWindow.loadURL('http://localhost:5173')
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   } else {
-    mainWindow.loadFile(join(__dirname, '../../dist/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
-  mainWindow.once('ready-to-show', () => mainWindow?.show())
+  mainWindow.once('ready-to-show', () => {
+    splashWindow?.close()
+    splashWindow = null
+    mainWindow?.show()
+  })
 
   mainWindow.on('close', (e) => {
     e.preventDefault()
@@ -141,7 +168,7 @@ function createMainWindow() {
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Tray Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function createTray() {
-  const icon = nativeImage.createFromPath(join(__dirname, '../../public/icon.ico'))
+  const icon = nativeImage.createFromPath(join(__dirname, '../renderer/icon.ico'))
   tray = new Tray(icon.isEmpty() ? nativeImage.createEmpty() : icon)
   tray.setToolTip('XStat')
   tray.setContextMenu(Menu.buildFromTemplate([
@@ -214,13 +241,13 @@ ipcMain.handle('widget-editor:open', (_event, widget: unknown) => {
       nodeIntegration: false,
       sandbox: false,
     },
-    icon: join(__dirname, '../../public/icon.ico'),
+    icon: join(__dirname, '../renderer/icon.ico'),
   })
 
   if (IS_DEV) {
     widgetEditorWindow.loadURL('http://localhost:5173/#/widget-editor')
   } else {
-    widgetEditorWindow.loadFile(join(__dirname, '../../dist/index.html'), { hash: '/widget-editor' })
+    widgetEditorWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: '/widget-editor' })
   }
 
   widgetEditorWindow.once('ready-to-show', () => {
@@ -247,6 +274,7 @@ ipcMain.handle('widget-editor:maximize', () => {
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ App lifecycle Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 app.whenReady().then(async () => {
+  createSplashWindow()
   await startService()
   createMainWindow()
   createTray()

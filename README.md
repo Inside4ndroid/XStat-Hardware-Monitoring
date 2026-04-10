@@ -38,7 +38,21 @@ Panels run both inside the Electron desktop app **and** as a responsive web page
 
 ## Screenshots
 
-> _Add your screenshots here — place images in `website-source/images/screenshots/`._
+**Dashboard** — live CPU & GPU sensor overview
+
+![Dashboard](website-source/images/screenshots/Screenshot%202026-04-10%20132009.png)
+
+**Panel Editor** — drag-and-drop widget canvas
+
+![Panel Editor](website-source/images/screenshots/Screenshot%202026-04-10%20132022.png)
+
+**Settings** — configurable port, poll interval, and LAN web panel QR code
+
+![Settings](website-source/images/screenshots/Screenshot%202026-04-10%20132029.png)
+
+**Custom Widget Editor** — full HTML/CSS/JS editor with Monaco and live preview
+
+![Custom Widget Editor](website-source/images/screenshots/Screenshot%202026-04-10%20132354.png)
 
 ---
 
