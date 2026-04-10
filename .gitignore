@@ -1,0 +1,32 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.nupkg
+
+# Node / Electron
+node_modules/
+dist/
+dist-electron/
+out/
+.vite/
+*.log
+
+# Panel builds
+panels/**/dist/
+
+# Electron build output
+dist-service/
+
+# App user config (machine-specific)
+src/app/electron/xstat-config.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/

@@ -1,0 +1,6 @@
+@XStat.Service_HostAddress = http://localhost:5096
+
+GET {{XStat.Service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

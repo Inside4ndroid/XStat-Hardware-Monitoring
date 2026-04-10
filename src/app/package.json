@@ -1,0 +1,86 @@
+{
+  "name": "xstat-app",
+  "version": "0.1.0",
+  "description": "XStat – Open-source hardware monitoring & sensor panel",
+  "private": true,
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "dev:admin": "powershell -ExecutionPolicy Bypass -File ..\\..\\dev-admin.ps1",
+    "dev:panel": "vite serve --config vite.panel.config.ts",
+    "build": "electron-vite build",
+    "build:electron": "electron-vite build",
+    "build:panel": "vite build --config vite.panel.config.ts",
+    "preview": "electron-vite preview",
+    "package:dir": "electron-builder --win dir --publish never",
+    "package:nsis": "electron-builder --win nsis --prepackaged ..\\..\\dist\\win-unpacked --publish never",
+    "package": "electron-vite build && electron-builder"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@microsoft/signalr": "^8.0.7",
+    "@monaco-editor/react": "^4.7.0",
+    "@mui/icons-material": "^6.3.0",
+    "@mui/material": "^6.3.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-grid-layout": "^2.2.3",
+    "react-router-dom": "^7.1.1",
+    "recharts": "^3.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/react-grid-layout": "^1.3.6",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.3.1",
+    "electron-builder": "^26.8.1",
+    "electron-vite": "^2.3.0",
+    "typescript": "^5.7.3",
+    "vite": "^5.4.14",
+    "vite-plugin-monaco-editor": "^1.1.0"
+  },
+  "build": {
+    "appId": "dev.xstat.app",
+    "productName": "XStat",
+    "directories": {
+      "output": "../../dist"
+    },
+    "files": [
+      "out/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../../dist-service/",
+        "to": "service",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "resources/pawnio/",
+        "to": "pawnio",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/icon.ico",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "runAfterFinish": true,
+      "include": "build/installer.nsh",
+      "installerIcon": "public/icon.ico",
+      "uninstallerIcon": "public/icon.ico"
+    }
+  }
+}
