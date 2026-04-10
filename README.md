@@ -20,10 +20,10 @@
 
 <p align="center">
   <a href="https://xstat.ddns.net">🌐 Website</a> ·
-  <a href="docs/installation.md">📥 Install</a> ·
-  <a href="docs/development.md">🛠 Develop</a> ·
-  <a href="docs/architecture.md">🏗 Architecture</a> ·
-  <a href="docs/widgets.md">🧩 Widgets</a>
+  <a href="https://xstat.ddns.net/docs.html#installer">📥 Install</a> ·
+  <a href="https://xstat.ddns.net/docs.html#dev-setup">🛠 Develop</a> ·
+  <a href="https://xstat.ddns.net/docs.html#arch-overview">🏗 Architecture</a> ·
+  <a href="https://xstat.ddns.net/docs.html#widget-common">🧩 Widgets</a>
 </p>
 
 ---
@@ -98,7 +98,7 @@ Panels run both inside the Electron desktop app **and** as a responsive web page
 2. Run the installer — administrator rights are required so the hardware service can access sensor data.
 3. XStat starts automatically and sits in the system tray.
 
-See [docs/installation.md](docs/installation.md) for full details.
+See [Installation Guide](https://xstat.ddns.net/docs.html#installer) for full details.
 
 ### Option B — Run from source
 
@@ -110,7 +110,7 @@ npm install
 npm run dev:admin      # launches Electron + .NET service (elevation prompt)
 ```
 
-See [docs/development.md](docs/development.md) for full setup instructions.
+See [Development Setup](https://xstat.ddns.net/docs.html#dev-setup) for full setup instructions.
 
 ---
 
@@ -144,11 +144,11 @@ xstat/
 
 | Document | Description |
 |---|---|
-| [Installation Guide](docs/installation.md) | How to install and run XStat |
-| [Development Setup](docs/development.md) | Set up a local dev environment |
-| [Building for Production](docs/building.md) | Build the installer and service |
-| [Architecture Overview](docs/architecture.md) | How the pieces fit together |
-| [Widget Reference](docs/widgets.md) | All widget types documented |
+| [Installation Guide](https://xstat.ddns.net/docs.html#installer) | How to install and run XStat |
+| [Development Setup](https://xstat.ddns.net/docs.html#dev-setup) | Set up a local dev environment |
+| [Building for Production](https://xstat.ddns.net/docs.html#dev-build) | Build the installer and service |
+| [Architecture Overview](https://xstat.ddns.net/docs.html#arch-overview) | How the pieces fit together |
+| [Widget Reference](https://xstat.ddns.net/docs.html#widget-common) | All widget types documented |
 
 ---
 

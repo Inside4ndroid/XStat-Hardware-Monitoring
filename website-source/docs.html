@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="XStat Documentation — Installation, configuration, widget reference, development setup, and architecture." />
+  <meta name="theme-color" content="#0c0c0e" />
+  <title>Docs — XStat Hardware Monitoring</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/docs.css" />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="docs-page">
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <img src="images/logo.png" alt="XStat" />
+      <span>XStat</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#download">Download</a>
+      <a href="docs.html" class="nav-active">Docs</a>
+      <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring" class="nav-gh" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </nav>
+    <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ── DOCS LAYOUT ──────────────────────────────────── -->
+<div class="docs-layout">
+
+  <!-- Sidebar toggle (mobile) -->
+  <button class="docs-sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <span>Menu</span>
+  </button>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="docs-sidebar" id="docsSidebar">
+    <div class="docs-sidebar-inner">
+
+      <div class="docs-sidebar-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="docsSearch" placeholder="Search docs…" autocomplete="off" spellcheck="false" />
+      </div>
+
+      <nav class="docs-nav" id="docsNav" aria-label="Documentation navigation">
+
+        <div class="docs-nav-group">
+          <div class="docs-nav-label">Get Started</div>
+          <a href="#introduction" class="docs-nav-link">Introduction</a>
+          <a href="#requirements" class="docs-nav-link">System Requirements</a>
+          <a href="#quickstart" class="docs-nav-link">Quick Start</a>
+        </div>
+
+        <div class="docs-nav-group">
+          <div class="docs-nav-label">Installation</div>
+          <a href="#installer" class="docs-nav-link">Installer (Recommended)</a>
+          <a href="#portable" class="docs-nav-link">Portable ZIP</a>
+          <a href="#from-source" class="docs-nav-link">From Source</a>
+          <a href="#firewall" class="docs-nav-link">Firewall &amp; LAN Access</a>
+          <a href="#uninstall" class="docs-nav-link">Uninstallation</a>
+        </div>
+
+        <div class="docs-nav-group">
+          <div class="docs-nav-label">Using XStat</div>
+          <a href="#dashboard" class="docs-nav-link">Dashboard</a>
+          <a href="#panel-editor" class="docs-nav-link">Panel Editor</a>
+          <a href="#lan-panel" class="docs-nav-link">LAN Web Panel</a>
+          <a href="#settings" class="docs-nav-link">Settings</a>
+        </div>
+
+        <div class="docs-nav-group">
+          <div class="docs-nav-label">Widget Reference</div>
+          <a href="#widget-common" class="docs-nav-link">Common Properties</a>
+          <a href="#widget-value" class="docs-nav-link">Sensor Value</a>
+          <a href="#widget-bar" class="docs-nav-link">Sensor Bar</a>
+          <a href="#widget-sparkline" class="docs-nav-link">Sparkline</a>
+          <a href="#widget-gauge" class="docs-nav-link">Gauge</a>
+          <a href="#widget-clock" class="docs-nav-link">Clock</a>
+          <a href="#widget-text" class="docs-nav-link">Text</a>
+          <a href="#widget-image" class="docs-nav-link">Image</a>
+          <a href="#widget-custom" class="docs-nav-link">Custom HTML</a>
+        </div>
+
+        <div class="docs-nav-group">
+          <div class="docs-nav-label">Development</div>
+          <a href="#dev-prerequisites" class="docs-nav-link">Prerequisites</a>
+          <a href="#dev-setup" class="docs-nav-link">Dev Setup</a>
+          <a href="#dev-layout" class="docs-nav-link">Project Layout</a>
+          <a href="#dev-build" class="docs-nav-link">Production Build</a>
+        </div>
+
+        <div class="docs-nav-group">
+          <div class="docs-nav-label">Architecture</div>
+          <a href="#arch-overview" class="docs-nav-link">Overview</a>
+          <a href="#arch-electron" class="docs-nav-link">Electron Process</a>
+          <a href="#arch-service" class="docs-nav-link">Hardware Service</a>
+          <a href="#arch-api" class="docs-nav-link">REST API</a>
+          <a href="#arch-dataflow" class="docs-nav-link">Data Flow</a>
+          <a href="#arch-security" class="docs-nav-link">Security</a>
+        </div>
+
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ── CONTENT ── -->
+  <main class="docs-content" id="docsContent">
+
+    <!-- ════════════════ GET STARTED ════════════════ -->
+    <section class="doc-section" id="introduction">
+      <div class="doc-section-label">Get Started</div>
+      <h1 class="doc-h1">Introduction</h1>
+      <p class="doc-lead">XStat is an open-source real-time hardware monitoring application for Windows. It reads live sensor data from your CPU, GPU, RAM, storage and network then lets you design and display fully custom panels on your desktop — and on any device on your local network.</p>
+
+      <div class="doc-cards">
+        <div class="doc-card">
+          <div class="doc-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div>
+            <strong>Easy to install</strong>
+            <p>Download the NSIS installer, run it once with admin rights, and you're done.</p>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <strong>Works everywhere</strong>
+            <p>Your sensor panel is also a LAN web page — view it on any phone, tablet, or second monitor.</p>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <div>
+            <strong>MIT Licensed</strong>
+            <p>Completely free and open source. Fork it, customise it, no strings attached.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="requirements">
+      <h2 class="doc-h2">System Requirements</h2>
+      <table class="doc-table">
+        <thead><tr><th>Requirement</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td>Operating System</td><td>Windows 10 (64-bit) or Windows 11</td></tr>
+          <tr><td>Privileges</td><td>Administrator — required to read hardware sensor data via LibreHardwareMonitor</td></tr>
+          <tr><td>RAM</td><td>200 MB minimum</td></tr>
+          <tr><td>Disk space</td><td>~150 MB</td></tr>
+          <tr><td>Network</td><td>LAN only — no internet connection required</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="quickstart">
+      <h2 class="doc-h2">Quick Start</h2>
+      <p>The fastest way to get XStat running:</p>
+      <ol class="doc-ol">
+        <li>Download the latest <strong>XStat Setup.exe</strong> from the <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases" target="_blank" rel="noopener" class="doc-link">Releases page</a>.</li>
+        <li>Run the installer as administrator.</li>
+        <li>XStat starts automatically and appears in the system tray. Double-click the tray icon to open the main window.</li>
+      </ol>
+      <div class="doc-callout doc-callout--info">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>Administrator rights are required because LibreHardwareMonitor needs elevated access to read hardware sensor registers. The installer registers a Windows Service that runs as Local System to handle this automatically.</div>
+      </div>
+    </section>
+
+    <!-- ════════════════ INSTALLATION ════════════════ -->
+    <section class="doc-section" id="installer">
+      <div class="doc-section-label">Installation</div>
+      <h2 class="doc-h2">Installer <span class="doc-badge">Recommended</span></h2>
+      <p>The NSIS installer handles everything automatically — service registration, shortcuts, and startup entry.</p>
+      <h3 class="doc-h3">1. Download</h3>
+      <p>Go to the <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases" target="_blank" rel="noopener" class="doc-link">Releases page</a> and download <code class="doc-code-inline">XStat Setup &lt;version&gt;.exe</code> from the latest release.</p>
+      <h3 class="doc-h3">2. Run the installer</h3>
+      <p>Double-click the installer. Windows may show a SmartScreen warning — click <strong>"More info" → "Run anyway"</strong> (the app is not yet code-signed).</p>
+      <p>The installer will:</p>
+      <ul class="doc-ul">
+        <li>Install XStat to <code class="doc-code-inline">%ProgramFiles%\XStat</code></li>
+        <li>Register <code class="doc-code-inline">XStatHardwareSvc</code> as a Windows Service running as Local System</li>
+        <li>Create a Start Menu shortcut</li>
+        <li>Add an optional Desktop shortcut</li>
+        <li>Configure a Windows startup entry (can be disabled)</li>
+      </ul>
+      <h3 class="doc-h3">3. First launch</h3>
+      <p>XStat starts automatically after installation. Look for the <strong>XStat icon in the system tray</strong>. Double-click it to open the main window.</p>
+    </section>
+
+    <section class="doc-section" id="portable">
+      <h2 class="doc-h2">Portable ZIP</h2>
+      <p>No installer needed. Extract the portable ZIP anywhere and run <code class="doc-code-inline">XStat.exe</code> directly.</p>
+      <ol class="doc-ol">
+        <li>Download <code class="doc-code-inline">XStat-Portable-&lt;version&gt;.zip</code> from the <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases" target="_blank" rel="noopener" class="doc-link">Releases page</a>.</li>
+        <li>Extract the ZIP to any folder.</li>
+        <li>Right-click <code class="doc-code-inline">XStat.exe</code> → <strong>Run as administrator</strong>.</li>
+      </ol>
+      <div class="doc-callout doc-callout--warn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>The portable build does not register a Windows Service. XStat will spawn the hardware service internally — keep the app open for the service to stay running.</div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="from-source">
+      <h2 class="doc-h2">From Source</h2>
+      <p>Requires <strong>Node.js 20+</strong>, <strong>.NET 9 SDK</strong>, and <strong>Windows</strong>.</p>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header">
+          <span>PowerShell</span>
+          <button class="doc-copy-btn" data-copy="git clone https://github.com/Inside4ndroid/XStat-Hardware-Monitoring.git&#10;cd XStat-Hardware-Monitoring/src/app&#10;npm install&#10;npm run dev:admin">Copy</button>
+        </div>
+        <pre><code><span class="c"># Clone and install</span>
+git clone https://github.com/Inside4ndroid/XStat-Hardware-Monitoring.git
+cd XStat-Hardware-Monitoring/src/app
+npm install
+
+<span class="c"># Start in dev mode (will prompt for elevation)</span>
+npm run dev:admin</code></pre>
+      </div>
+      <p>See the <a href="#dev-setup" class="doc-link">Development Setup</a> section for full details.</p>
+    </section>
+
+    <section class="doc-section" id="firewall">
+      <h2 class="doc-h2">Firewall &amp; LAN Access</h2>
+      <p>The hardware service listens on <strong>port 9421</strong> by default (configurable in Settings). If your Windows Firewall blocks LAN access to the web panel, add an inbound rule:</p>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header">
+          <span>PowerShell — run as Administrator</span>
+          <button class="doc-copy-btn" data-copy="netsh advfirewall firewall add rule name=&quot;XStat Hardware Service&quot; dir=in action=allow protocol=TCP localport=9421">Copy</button>
+        </div>
+        <pre><code>netsh advfirewall firewall add rule `
+  name="XStat Hardware Service" `
+  dir=in action=allow protocol=TCP localport=9421</code></pre>
+      </div>
+      <p>Once the rule is in place, open the XStat app → <strong>Settings</strong> → scan the QR code or copy the URL to open the LAN panel on any device.</p>
+    </section>
+
+    <section class="doc-section" id="uninstall">
+      <h2 class="doc-h2">Uninstallation</h2>
+      <ul class="doc-ul">
+        <li><strong>Installed via NSIS:</strong> Go to <em>Settings → Apps</em> (or <em>Control Panel → Programs</em>) and uninstall <strong>XStat</strong>. The Windows Service is removed automatically.</li>
+        <li><strong>Portable:</strong> Delete the folder. Any user config stored in <code class="doc-code-inline">%APPDATA%\xstat\</code> can also be removed manually.</li>
+      </ul>
+    </section>
+
+    <!-- ════════════════ USING XSTAT ════════════════ -->
+    <section class="doc-section" id="dashboard">
+      <div class="doc-section-label">Using XStat</div>
+      <h2 class="doc-h2">Dashboard</h2>
+      <p>The Dashboard is the main view. It groups sensor data by hardware category and updates in real time via a SignalR WebSocket connection to the hardware service.</p>
+      <div class="doc-screenshot">
+        <img src="images/screenshots/Screenshot 2026-04-10 132009.png" alt="XStat Dashboard" loading="lazy" />
+      </div>
+      <h3 class="doc-h3">Sensor categories</h3>
+      <table class="doc-table">
+        <thead><tr><th>Category</th><th>Sensors shown</th></tr></thead>
+        <tbody>
+          <tr><td>CPU</td><td>Load, temperature, power draw, clock speed, per-core load, sparkline history</td></tr>
+          <tr><td>GPU</td><td>Core load, temperature, VRAM used/free, engine utilisation, clock, sparkline history</td></tr>
+          <tr><td>RAM</td><td>Used, free, load percentage</td></tr>
+          <tr><td>Storage</td><td>Temperature, activity, transfer rates per drive</td></tr>
+          <tr><td>Network</td><td>Upload/download throughput per adapter</td></tr>
+          <tr><td>Motherboard</td><td>Fan speeds, voltages, chipset temperature</td></tr>
+        </tbody>
+      </table>
+      <div class="doc-callout doc-callout--info">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>The status indicator in the top-right shows <strong>Live · N sensors</strong> when connected. If it shows <em>Connecting…</em> the service may still be starting — wait a few seconds.</div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="panel-editor">
+      <h2 class="doc-h2">Panel Editor</h2>
+      <p>The Panel Editor lets you design a fully custom display panel using a drag-and-drop dot-grid canvas.</p>
+      <div class="doc-screenshot">
+        <img src="images/screenshots/Screenshot 2026-04-10 132022.png" alt="XStat Panel Editor" loading="lazy" />
+      </div>
+      <h3 class="doc-h3">Basic workflow</h3>
+      <ol class="doc-ol">
+        <li>Click a widget type in the <strong>Add Widget</strong> sidebar to add it to the canvas.</li>
+        <li>Drag to reposition; drag the resize handle to change size.</li>
+        <li>Select a widget and use the <strong>Properties</strong> panel on the right to bind it to a sensor and style each element.</li>
+        <li>Use the <strong>z-index controls</strong> (Send to Back / Bring to Front) to layer widgets.</li>
+        <li>Click the panel name in the toolbar to rename it or switch between multiple panels.</li>
+        <li>Use the <strong>Export</strong> / <strong>Import</strong> buttons to save or load panel layouts as JSON.</li>
+      </ol>
+      <h3 class="doc-h3">Canvas settings</h3>
+      <p>The canvas size (W × H in pixels) determines the dimensions of your panel when viewed in the LAN browser. Set it to match your secondary monitor or streaming overlay resolution.</p>
+    </section>
+
+    <section class="doc-section" id="lan-panel">
+      <h2 class="doc-h2">LAN Web Panel</h2>
+      <p>Every panel you build is simultaneously served as a web page by the hardware service. Any device on the same network can view it in a browser — no app install required.</p>
+      <h3 class="doc-h3">Finding the URL</h3>
+      <p>Go to <strong>Settings → LAN Web Panel</strong>. The URL (e.g. <code class="doc-code-inline">http://192.168.1.128:9421</code>) and a QR code are shown. Scan the QR code with your phone or paste the URL into any browser.</p>
+      <h3 class="doc-h3">Reconnection</h3>
+      <p>The LAN panel automatically reconnects if the service restarts. If the panel is showing stale content, hard-refresh the browser (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>).</p>
+    </section>
+
+    <section class="doc-section" id="settings">
+      <h2 class="doc-h2">Settings</h2>
+      <div class="doc-screenshot">
+        <img src="images/screenshots/Screenshot 2026-04-10 132029.png" alt="XStat Settings" loading="lazy" />
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Service port</strong></td><td>The TCP port Kestrel listens on. Range 1024–65535. Click Apply to restart the service with the new port. Default: <code class="doc-code-inline">9421</code>.</td></tr>
+          <tr><td><strong>Poll interval</strong></td><td>How often LibreHardwareMonitor reads sensor values. Range 250 ms–5 s. Shorter = lower latency, higher CPU overhead.</td></tr>
+          <tr><td><strong>LAN Web Panel URL</strong></td><td>The local IP address and port to open the panel in a browser. Also shown as a QR code.</td></tr>
+        </tbody>
+      </table>
+      <p>Settings are persisted to <code class="doc-code-inline">%APPDATA%\xstat\xstat-config.json</code>.</p>
+    </section>
+
+    <!-- ════════════════ WIDGET REFERENCE ════════════════ -->
+    <section class="doc-section" id="widget-common">
+      <div class="doc-section-label">Widget Reference</div>
+      <h2 class="doc-h2">Common Properties</h2>
+      <p>Every widget in the panel editor shares these base properties:</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">id</code></td><td>string</td><td>Auto-generated unique identifier</td></tr>
+          <tr><td><code class="doc-code-inline">type</code></td><td>WidgetType</td><td>One of the eight widget types listed below</td></tr>
+          <tr><td><code class="doc-code-inline">widgetName</code></td><td>string?</td><td>User-defined name shown in the widget selector dropdown</td></tr>
+          <tr><td><code class="doc-code-inline">zIndex</code></td><td>number?</td><td>Layer order — higher values appear on top. Default: 0</td></tr>
+          <tr><td><code class="doc-code-inline">x</code>, <code class="doc-code-inline">y</code></td><td>number</td><td>Grid position (column / row)</td></tr>
+          <tr><td><code class="doc-code-inline">w</code>, <code class="doc-code-inline">h</code></td><td>number</td><td>Grid size in grid units</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-value">
+      <h2 class="doc-h2">Sensor Value</h2>
+      <p>Displays a single sensor reading as a large number with an optional label and unit. Best for spotlighting a single metric at a glance.</p>
+      <p><strong>Best for:</strong> CPU temperature, GPU load, RAM usage, fan speeds.</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">sensorId</code></td><td>Sensor to bind the value to</td></tr>
+          <tr><td><code class="doc-code-inline">label</code></td><td>Override the sensor's default label text</td></tr>
+          <tr><td><code class="doc-code-inline">unit</code></td><td>Override the sensor's default unit text</td></tr>
+          <tr><td><code class="doc-code-inline">color</code></td><td>Value text colour</td></tr>
+          <tr><td><code class="doc-code-inline">fontSize</code></td><td>Value font size (px)</td></tr>
+          <tr><td><code class="doc-code-inline">labelColor</code>, <code class="doc-code-inline">labelFontSize</code></td><td>Label styling</td></tr>
+          <tr><td><code class="doc-code-inline">unitColor</code>, <code class="doc-code-inline">unitFontSize</code></td><td>Unit styling</td></tr>
+          <tr><td><code class="doc-code-inline">showLabel</code> / <code class="doc-code-inline">showValue</code> / <code class="doc-code-inline">showUnit</code></td><td>Toggle each element on/off</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-bar">
+      <h2 class="doc-h2">Sensor Bar</h2>
+      <p>A horizontal progress bar showing a sensor value against a configurable min/max range. Good for load percentages.</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">sensorId</code></td><td>Sensor to bind</td></tr>
+          <tr><td><code class="doc-code-inline">min</code> / <code class="doc-code-inline">max</code></td><td>Value range for the bar fill. Default: 0 / 100</td></tr>
+          <tr><td><code class="doc-code-inline">barColor</code></td><td>Fill colour</td></tr>
+          <tr><td><code class="doc-code-inline">trackColor</code></td><td>Background track colour</td></tr>
+          <tr><td><code class="doc-code-inline">showLabel</code> / <code class="doc-code-inline">showValue</code></td><td>Toggle label and value text</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-sparkline">
+      <h2 class="doc-h2">Sparkline</h2>
+      <p>An area chart displaying the last 60 data points for a sensor. Great for spotting trends and load spikes over time.</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">sensorId</code></td><td>Sensor to chart</td></tr>
+          <tr><td><code class="doc-code-inline">lineColor</code></td><td>Chart line and area fill colour</td></tr>
+          <tr><td><code class="doc-code-inline">showLabel</code></td><td>Toggle the sensor label</td></tr>
+          <tr><td><code class="doc-code-inline">showValue</code></td><td>Toggle the live value overlay</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-gauge">
+      <h2 class="doc-h2">Gauge</h2>
+      <p>A circular arc gauge with a coloured fill over a subtle track. Clean and compact for percentage-based metrics.</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">sensorId</code></td><td>Sensor to bind</td></tr>
+          <tr><td><code class="doc-code-inline">min</code> / <code class="doc-code-inline">max</code></td><td>Gauge range. Default: 0 / 100</td></tr>
+          <tr><td><code class="doc-code-inline">gaugeColor</code></td><td>Arc fill colour</td></tr>
+          <tr><td><code class="doc-code-inline">showValue</code></td><td>Toggle the centre value label</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-clock">
+      <h2 class="doc-h2">Clock</h2>
+      <p>Displays the current local time, updating every second. Supports configurable format, font, and colour.</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">format</code></td><td><code class="doc-code-inline">HH:mm</code> (24-hour) or <code class="doc-code-inline">hh:mm a</code> (12-hour). Default: <code class="doc-code-inline">HH:mm</code></td></tr>
+          <tr><td><code class="doc-code-inline">color</code></td><td>Text colour</td></tr>
+          <tr><td><code class="doc-code-inline">fontSize</code></td><td>Font size (px)</td></tr>
+          <tr><td><code class="doc-code-inline">fontWeight</code></td><td>Font weight (e.g. 400, 700)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-text">
+      <h2 class="doc-h2">Text</h2>
+      <p>A static text label. Use it for section headings, decorative text, or anything static on your panel.</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">text</code></td><td>The text content to display</td></tr>
+          <tr><td><code class="doc-code-inline">color</code></td><td>Text colour</td></tr>
+          <tr><td><code class="doc-code-inline">fontSize</code></td><td>Font size (px)</td></tr>
+          <tr><td><code class="doc-code-inline">fontWeight</code></td><td>Font weight</td></tr>
+          <tr><td><code class="doc-code-inline">italic</code></td><td>Italic style toggle</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-image">
+      <h2 class="doc-h2">Image</h2>
+      <p>Display any image on your panel. Use it for a logo, background, watermark, or decorative graphic.</p>
+      <table class="doc-table">
+        <thead><tr><th>Property</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">src</code></td><td>Uploaded image (stored as base64 data URL)</td></tr>
+          <tr><td><code class="doc-code-inline">objectFit</code></td><td><code class="doc-code-inline">contain</code>, <code class="doc-code-inline">cover</code>, or <code class="doc-code-inline">fill</code></td></tr>
+          <tr><td><code class="doc-code-inline">opacity</code></td><td>0–1, default 1</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="widget-custom">
+      <h2 class="doc-h2">Custom HTML Widget</h2>
+      <p>Write completely bespoke widgets using HTML, CSS, and JavaScript in the built-in Monaco editor. Live preview updates as you type. Sensor data is injected via a <code class="doc-code-inline">postMessage</code> API.</p>
+      <div class="doc-screenshot">
+        <img src="images/screenshots/Screenshot 2026-04-10 132354.png" alt="Custom Widget Editor" loading="lazy" />
+      </div>
+      <h3 class="doc-h3">Sensor data API</h3>
+      <p>The widget iframe receives a <code class="doc-code-inline">message</code> event whenever sensor data updates. Listen for it like this:</p>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header">
+          <span>JavaScript</span>
+          <button class="doc-copy-btn" data-copy="window.addEventListener('message', (e) => {&#10;  const sensors = e.data.sensors; // HardwareSnapshot object&#10;  // e.g. sensors.cpu.temperature&#10;});">Copy</button>
+        </div>
+        <pre><code>window.addEventListener('message', (e) => {
+  const sensors = e.data.sensors; <span class="c">// HardwareSnapshot object</span>
+  <span class="c">// Access any sensor value, e.g.:</span>
+  const cpuTemp = sensors?.cpu?.temperature;
+});</code></pre>
+      </div>
+      <h3 class="doc-h3">Files panel</h3>
+      <p>The <strong>Files (N)</strong> button in the editor toolbar lets you upload assets (images, fonts, data files) that are bundled with the widget. Reference them by filename in your HTML.</p>
+      <h3 class="doc-h3">Tips</h3>
+      <ul class="doc-ul">
+        <li>Set <code class="doc-code-inline">background: transparent</code> on the body to blend with the panel background.</li>
+        <li>Use <code class="doc-code-inline">overflow: hidden</code> to prevent content from spilling outside the widget bounds.</li>
+        <li>The live preview reflects the last saved sensor snapshot — click <strong>Run</strong> to force a refresh.</li>
+      </ul>
+    </section>
+
+    <!-- ════════════════ DEVELOPMENT ════════════════ -->
+    <section class="doc-section" id="dev-prerequisites">
+      <div class="doc-section-label">Development</div>
+      <h2 class="doc-h2">Prerequisites</h2>
+      <table class="doc-table">
+        <thead><tr><th>Tool</th><th>Minimum version</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Windows</td><td>10 / 11</td><td>Required — hardware sensor access is Windows-only</td></tr>
+          <tr><td>Node.js</td><td>20 LTS</td><td><a href="https://nodejs.org/" target="_blank" rel="noopener" class="doc-link">nodejs.org</a></td></tr>
+          <tr><td>.NET SDK</td><td>9.0</td><td><a href="https://dotnet.microsoft.com/download" target="_blank" rel="noopener" class="doc-link">dotnet.microsoft.com</a></td></tr>
+          <tr><td>Git</td><td>Any recent</td><td></td></tr>
+          <tr><td>Administrator rights</td><td>—</td><td>The hardware service must run elevated to read sensor data</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="dev-setup">
+      <h2 class="doc-h2">Dev Setup</h2>
+      <h3 class="doc-h3">1 — Clone &amp; install</h3>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header">
+          <span>PowerShell</span>
+          <button class="doc-copy-btn" data-copy="git clone https://github.com/Inside4ndroid/XStat-Hardware-Monitoring.git&#10;cd XStat-Hardware-Monitoring/src/app&#10;npm install">Copy</button>
+        </div>
+        <pre><code>git clone https://github.com/Inside4ndroid/XStat-Hardware-Monitoring.git
+cd XStat-Hardware-Monitoring/src/app
+npm install</code></pre>
+      </div>
+      <h3 class="doc-h3">2 — Start the dev server</h3>
+      <p>The <code class="doc-code-inline">dev:admin</code> script launches the Vite dev server and the Electron shell together, prompting for administrator elevation so the hardware service can access sensors.</p>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header">
+          <span>PowerShell — from src/app/</span>
+          <button class="doc-copy-btn" data-copy="npm run dev:admin">Copy</button>
+        </div>
+        <pre><code>npm run dev:admin</code></pre>
+      </div>
+      <p>This runs <code class="doc-code-inline">dev-admin.ps1</code> which:</p>
+      <ol class="doc-ol">
+        <li>Re-launches the PowerShell session elevated (UAC prompt).</li>
+        <li>Starts the .NET hardware service in the background.</li>
+        <li>Runs <code class="doc-code-inline">electron-vite dev</code> — the React Vite HMR server and Electron window.</li>
+      </ol>
+      <h3 class="doc-h3">3 — Rebuild the LAN panel</h3>
+      <p>When you change panel-related React code and want the LAN panel to reflect it, rebuild the panel bundle:</p>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header"><span>PowerShell — from src/app/</span></div>
+        <pre><code>npm run build:panel</code></pre>
+      </div>
+    </section>
+
+    <section class="doc-section" id="dev-layout">
+      <h2 class="doc-h2">Project Layout</h2>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header"><span>Directory tree</span></div>
+        <pre><code>xstat/
+├── src/
+│   ├── app/                    <span class="c"># Electron + React frontend</span>
+│   │   ├── electron/
+│   │   │   ├── main.ts         <span class="c"># Main process</span>
+│   │   │   └── preload.ts      <span class="c"># Context bridge</span>
+│   │   └── src/
+│   │       ├── pages/          <span class="c"># Dashboard, PanelEditor, Settings, WidgetEditor</span>
+│   │       ├── components/     <span class="c"># Shared UI components</span>
+│   │       ├── hooks/          <span class="c"># useSensors, usePanelLayout, useAppSettings</span>
+│   │       └── types/          <span class="c"># TypeScript definitions</span>
+│   └── XStat.Service/          <span class="c"># ASP.NET Core hardware service</span>
+│       ├── Controllers/        <span class="c"># REST API</span>
+│       ├── Hardware/           <span class="c"># LibreHardwareMonitor wrapper</span>
+│       ├── Hubs/               <span class="c"># SignalR sensor hub</span>
+│       └── Services/           <span class="c"># SensorBroadcastService</span>
+├── website-source/             <span class="c"># This website (GitHub Pages)</span>
+├── build.ps1                   <span class="c"># Full production build script</span>
+└── xstat.sln                   <span class="c"># Visual Studio solution</span></code></pre>
+      </div>
+    </section>
+
+    <section class="doc-section" id="dev-build">
+      <h2 class="doc-h2">Production Build</h2>
+      <p>Run the build script from the repo root. It publishes the .NET service, builds the React bundles, and packages the Electron app into an NSIS installer and a portable ZIP.</p>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header">
+          <span>PowerShell — from repo root</span>
+          <button class="doc-copy-btn" data-copy=".\build.ps1">Copy</button>
+        </div>
+        <pre><code>.\build.ps1</code></pre>
+      </div>
+      <p>Output artifacts are placed in <code class="doc-code-inline">dist\</code>:</p>
+      <ul class="doc-ul">
+        <li><code class="doc-code-inline">XStat Setup &lt;version&gt;.exe</code> — NSIS installer</li>
+        <li><code class="doc-code-inline">XStat-Portable-&lt;version&gt;.zip</code> — portable build</li>
+        <li><code class="doc-code-inline">win-unpacked\</code> — unpacked app directory</li>
+      </ul>
+    </section>
+
+    <!-- ════════════════ ARCHITECTURE ════════════════ -->
+    <section class="doc-section" id="arch-overview">
+      <div class="doc-section-label">Architecture</div>
+      <h2 class="doc-h2">Overview</h2>
+      <p>XStat is composed of two independent processes that communicate over HTTP and WebSockets.</p>
+      <div class="doc-arch-diagram">
+        <div class="arch-box arch-box--electron">
+          <div class="arch-box-label">Electron Shell</div>
+          <div class="arch-row">
+            <div class="arch-inner">
+              <div class="arch-inner-label">Main Process</div>
+              <ul>
+                <li>Window management</li>
+                <li>Service spawn</li>
+                <li>Port config</li>
+                <li>System tray</li>
+              </ul>
+            </div>
+            <div class="arch-arrow-h">IPC ⇆</div>
+            <div class="arch-inner">
+              <div class="arch-inner-label">Renderer (React)</div>
+              <ul>
+                <li>Dashboard</li>
+                <li>Panel Editor</li>
+                <li>Settings</li>
+                <li>Widget Editor</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="arch-arrow-v">HTTP / SignalR ↕</div>
+        <div class="arch-box arch-box--service">
+          <div class="arch-box-label">XStat.Service (ASP.NET Core 9)</div>
+          <div class="arch-chips">
+            <span>LibreHardwareMonitor</span>
+            <span>SignalR hub /hubs/sensors</span>
+            <span>REST API /api/</span>
+            <span>Kestrel 0.0.0.0:9421</span>
+          </div>
+        </div>
+        <div class="arch-arrow-v">HTTP ↕</div>
+        <div class="arch-box arch-box--browser">
+          <div class="arch-box-label">LAN Browser</div>
+          <div class="arch-desc">Any phone, tablet, or PC on your network — <code>http://192.168.x.x:9421</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="arch-electron">
+      <h2 class="doc-h2">Electron Process</h2>
+      <h3 class="doc-h3">Main process (<code class="doc-code-inline">main.ts</code>)</h3>
+      <ul class="doc-ul">
+        <li><strong>Service lifecycle</strong> — probes <code class="doc-code-inline">/health</code>, tries to start the registered Windows Service, falls back to spawning the <code class="doc-code-inline">.exe</code> directly.</li>
+        <li><strong>Window management</strong> — main window (custom frame) and a detached widget editor window.</li>
+        <li><strong>IPC handlers</strong> — exposes <code class="doc-code-inline">service:url</code>, <code class="doc-code-inline">service:setPort</code>, <code class="doc-code-inline">window:*</code>, <code class="doc-code-inline">app:quit</code>, and <code class="doc-code-inline">widget-editor:*</code> channels.</li>
+        <li><strong>System tray</strong> — closing the main window hides it to the tray rather than quitting.</li>
+      </ul>
+      <h3 class="doc-h3">Preload (<code class="doc-code-inline">preload.ts</code>)</h3>
+      <p>Bridges main process to renderer via <code class="doc-code-inline">contextBridge.exposeInMainWorld('xstat', ...)</code>. The renderer has no direct Node access — all native operations go through the typed <code class="doc-code-inline">window.xstat</code> API.</p>
+    </section>
+
+    <section class="doc-section" id="arch-service">
+      <h2 class="doc-h2">Hardware Service</h2>
+      <p>An ASP.NET Core 9 web application that wraps LibreHardwareMonitor and exposes sensor data over HTTP and WebSockets.</p>
+      <ul class="doc-ul">
+        <li>Listens on <code class="doc-code-inline">0.0.0.0:{port}</code> — required for LAN browser access.</li>
+        <li>Supports running as a Windows Service (<code class="doc-code-inline">UseWindowsService</code>) or as a console app.</li>
+        <li><code class="doc-code-inline">SensorBroadcastService</code> polls hardware at the configured interval and sends snapshots to all SignalR clients.</li>
+        <li>Serves the panel React bundle as static files from <code class="doc-code-inline">wwwroot/</code>.</li>
+      </ul>
+    </section>
+
+    <section class="doc-section" id="arch-api">
+      <h2 class="doc-h2">REST API</h2>
+      <table class="doc-table">
+        <thead><tr><th>Endpoint</th><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code class="doc-code-inline">/health</code></td><td>GET</td><td>Liveness probe; returns <code class="doc-code-inline">{"isAdmin": true}</code></td></tr>
+          <tr><td><code class="doc-code-inline">/api/sensors</code></td><td>GET</td><td>One-shot sensor snapshot (JSON)</td></tr>
+          <tr><td><code class="doc-code-inline">/api/panels</code></td><td>GET / PUT</td><td>Panel layout read/write (file-backed JSON)</td></tr>
+          <tr><td><code class="doc-code-inline">/api/config</code></td><td>PUT</td><td>Update poll interval at runtime</td></tr>
+          <tr><td><code class="doc-code-inline">/hubs/sensors</code></td><td>WebSocket</td><td>SignalR hub — subscribe to live <code class="doc-code-inline">SensorUpdate</code> events</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-section" id="arch-dataflow">
+      <h2 class="doc-h2">Data Flow</h2>
+      <div class="doc-codeblock">
+        <div class="doc-codeblock-header"><span>Data flow diagram</span></div>
+        <pre><code>LibreHardwareMonitor
+        │  poll every N ms
+        ▼
+SensorBroadcastService
+        │  SignalR broadcast
+    ┌───┴──────────────────────┐
+    ▼                          ▼
+Electron Renderer          LAN Browser
+(useSensors hook)          (PanelApp.tsx)
+        │                      │
+   HardwareSnapshot       HardwareSnapshot
+        │                      │
+  Widget renderers        Widget renderers
+        │                      │
+  Live panel display      Live panel display</code></pre>
+      </div>
+    </section>
+
+    <section class="doc-section" id="arch-security">
+      <h2 class="doc-h2">Security Notes</h2>
+      <div class="doc-callout doc-callout--warn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>The service listens on all interfaces (<code class="doc-code-inline">0.0.0.0</code>) intentionally — this is required for LAN panel access. Only expose XStat on a trusted local network.</div>
+      </div>
+      <ul class="doc-ul">
+        <li>CORS is restricted to <code class="doc-code-inline">localhost</code>, Electron (<code class="doc-code-inline">file://</code>), and private IP ranges only.</li>
+        <li>No authentication is implemented on the service endpoints.</li>
+        <li>The Electron renderer runs with <code class="doc-code-inline">contextIsolation: true</code> and <code class="doc-code-inline">nodeIntegration: false</code>. All Node access is via the typed preload bridge.</li>
+      </ul>
+    </section>
+
+    <!-- Footer spacer -->
+    <div style="height: 80px;"></div>
+
+  </main>
+</div>
+
+<!-- ── FOOTER ──────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-left">
+      <a class="footer-brand" href="index.html">
+        <img src="images/logo.png" alt="XStat" />
+        <span>XStat</span>
+      </a>
+      <p>Open-source hardware monitoring for Windows.<br />Built by <a href="https://github.com/Inside4ndroid" target="_blank" rel="noopener">Inside4ndroid Studios</a>.</p>
+      <div class="footer-legal">MIT License &middot; &copy; 2026 Inside4ndroid Studios</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-col-title">Project</div>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/releases" target="_blank" rel="noopener">Releases</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/issues" target="_blank" rel="noopener">Issues</a>
+        <a href="https://github.com/Inside4ndroid/XStat-Hardware-Monitoring/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Docs</div>
+        <a href="docs.html#installer">Installation</a>
+        <a href="docs.html#dev-setup">Development</a>
+        <a href="docs.html#arch-overview">Architecture</a>
+        <a href="docs.html#widget-common">Widgets</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/docs.js"></script>
+</body>
+</html>
