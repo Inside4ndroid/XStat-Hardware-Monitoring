@@ -89,4 +89,17 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "electron-builder NSIS failed" }
 } finally { Pop-Location }
 
-Write-Host "`nBuild complete. Installer is in dist\" -ForegroundColor Green
+# ── 4/4  Create portable ZIP ───────────────────────────────────────────────
+Write-Host "`n=== 4/4  Creating portable ZIP ===" -ForegroundColor Cyan
+$version     = (Get-Content (Join-Path $appDir 'package.json') | ConvertFrom-Json).version
+$unpacked    = Join-Path $root "dist\win-unpacked"
+$portableZip = Join-Path $root "dist\XStat-Portable-$version.zip"
+
+if (Test-Path $portableZip) { Remove-Item $portableZip -Force }
+Compress-Archive -Path "$unpacked\*" -DestinationPath $portableZip -CompressionLevel Optimal
+$sizeMB = [math]::Round((Get-Item $portableZip).Length / 1MB, 1)
+Write-Host "  Portable: dist\XStat-Portable-$version.zip ($sizeMB MB)" -ForegroundColor DarkGray
+
+Write-Host "`nBuild complete." -ForegroundColor Green
+Write-Host "  Installer : dist\XStat Setup $version.exe" -ForegroundColor Green
+Write-Host "  Portable  : dist\XStat-Portable-$version.zip" -ForegroundColor Green

@@ -30,3 +30,6 @@ Thumbs.db
 # IDE
 .vscode/settings.json
 .idea/
+
+# Local scripts (contain tokens / machine-specific paths)
+release.ps1
