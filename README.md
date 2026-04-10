@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://xstat.ddns.me">🌐 Website</a> ·
+  <a href="https://xstat.ddns.net">🌐 Website</a> ·
   <a href="docs/installation.md">📥 Install</a> ·
   <a href="docs/development.md">🛠 Develop</a> ·
   <a href="docs/architecture.md">🏗 Architecture</a> ·
