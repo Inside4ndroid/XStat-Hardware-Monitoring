@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.webkit.WebResourceError
+import android.webkit.WebResourceResponse
 import android.view.View
 import android.view.WindowManager
 import android.webkit.WebResourceRequest
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_URL = "net.xstat.companion.EXTRA_URL"
+        const val EXTRA_ERROR = "net.xstat.companion.EXTRA_ERROR"
         private const val HEALTH_INTERVAL_MS = 1_000L
         private const val MAX_FAILURES = 3
     }
@@ -47,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     private val mainHandler = Handler(Looper.getMainLooper())
     private val monitorRunning = AtomicBoolean(false)
     private var consecutiveFailures = 0
+    private var monitorGeneration = 0
+    private var pageFailed = false
+    private var lastPageAttempt = 0L
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,9 +78,8 @@ class MainActivity : AppCompatActivity() {
         val url = intent.getStringExtra(EXTRA_URL)
         if (url != null) {
             loadUrl(url)
-            startConnectionMonitor(url)
         } else {
-            showError(getString(R.string.error_no_host))
+            showError(intent.getStringExtra(EXTRA_ERROR) ?: getString(R.string.error_no_host))
         }
 
         retryButton.setOnClickListener { restartApp() }
@@ -82,19 +88,22 @@ class MainActivity : AppCompatActivity() {
     // ── Connection monitor ──────────────────────────────────────────────────
 
     private fun startConnectionMonitor(baseUrl: String) {
+        stopConnectionMonitor()
         monitorRunning.set(true)
         consecutiveFailures = 0
         scheduleHealthCheck(baseUrl)
     }
 
     private fun scheduleHealthCheck(baseUrl: String) {
+        val token = monitorGeneration
         mainHandler.postDelayed({
-            if (!monitorRunning.get()) return@postDelayed
+            if (!monitorRunning.get() || token != monitorGeneration) return@postDelayed
             Thread {
                 val healthy = pingHealth(baseUrl)
                 mainHandler.post {
-                    if (!monitorRunning.get()) return@post
+                    if (!monitorRunning.get() || token != monitorGeneration) return@post
                     if (healthy) {
+                        if (pageFailed && android.os.SystemClock.elapsedRealtime() - lastPageAttempt >= 10_000L) loadUrl(baseUrl)
                         consecutiveFailures = 0
                         scheduleHealthCheck(baseUrl)
                     } else {
@@ -113,21 +122,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun pingHealth(baseUrl: String): Boolean {
+        var conn: HttpURLConnection? = null
         return try {
-            val conn = URL("$baseUrl/health").openConnection() as HttpURLConnection
+            conn = URL("$baseUrl/health").openConnection() as HttpURLConnection
             conn.connectTimeout = 3_000
             conn.readTimeout    = 3_000
             conn.requestMethod  = "GET"
             val code = conn.responseCode
-            conn.disconnect()
+            if (code !in 200..299) Log.w("XStatDiscovery", "HTTP health failed: status=$code")
             code in 200..299
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.w("XStatDiscovery", "HTTP health failed: ${e.javaClass.simpleName}")
             false
+        } finally {
+            conn?.disconnect()
         }
     }
 
     private fun stopConnectionMonitor() {
         monitorRunning.set(false)
+        monitorGeneration++
         mainHandler.removeCallbacksAndMessages(null)
     }
 
@@ -149,6 +163,15 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = false
 
+            @android.annotation.TargetApi(23)
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                if (request.isForMainFrame) pageError(error.description.toString())
+            }
+
+            override fun onReceivedHttpError(view: WebView, request: WebResourceRequest, response: WebResourceResponse) {
+                if (request.isForMainFrame) pageError("HTTP ${response.statusCode}")
+            }
+
             // Catches main-frame load errors (deprecated path, API < 23)
             @Suppress("OVERRIDE_DEPRECATION")
             override fun onReceivedError(
@@ -157,19 +180,26 @@ class MainActivity : AppCompatActivity() {
                 description: String,
                 failingUrl: String
             ) {
-                showError(getString(R.string.error_load_failed, description))
+                pageError(description)
             }
         }
     }
 
+    private fun pageError(description: String) {
+        pageFailed = true
+        Log.w("XStatDiscovery", "WebView main-frame load failed: $description")
+        showError(getString(R.string.error_load_failed, description))
+    }
+
     private fun loadUrl(url: String) {
+        pageFailed = false
+        lastPageAttempt = android.os.SystemClock.elapsedRealtime()
         errorView.visibility = View.GONE
         webView.visibility   = View.VISIBLE
         webView.loadUrl(url)
     }
 
     private fun showError(message: String) {
-        stopConnectionMonitor()
         webView.visibility   = View.GONE
         errorView.visibility = View.VISIBLE
         errorText.text       = message
@@ -178,11 +208,22 @@ class MainActivity : AppCompatActivity() {
     // ── Navigation & lifecycle ──────────────────────────────────────────────
 
     private fun restartApp() {
+        Log.i("XStatDiscovery", "Starting rediscovery")
         stopConnectionMonitor()
         val intent = Intent(this, SplashActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        intent.getStringExtra(EXTRA_URL)?.let { startConnectionMonitor(it) }
+    }
+
+    override fun onStop() {
+        stopConnectionMonitor()
+        super.onStop()
     }
 
     override fun onDestroy() {

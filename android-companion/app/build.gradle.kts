@@ -18,6 +18,7 @@ android {
         applicationId = "net.xstat.companion"
         minSdk = 21         // Android 5.0 Lollipop — broadest hardware coverage
         targetSdk = 35
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         versionCode = 3
         versionName = "0.3.0"
     }
@@ -54,6 +55,8 @@ android {
 }
 
 dependencies {
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.runner)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity)
