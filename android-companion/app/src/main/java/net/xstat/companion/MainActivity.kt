@@ -52,6 +52,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Keep the monitoring panel visible while this activity is on screen.
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         // Full-screen immersive — hide status bar + nav bar
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
