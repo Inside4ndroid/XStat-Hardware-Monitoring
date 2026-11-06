@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity
 class SplashActivity : AppCompatActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
+    private val discovery by lazy { DiscoveryManager(this) }
+    private var searchGeneration = 0
+    private var launched = false
     private val animators = mutableListOf<AnimatorSet>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,37 +41,57 @@ class SplashActivity : AppCompatActivity() {
             animators += anim
         }
 
-        // Start discovery immediately; pass result to MainActivity via intent.
-        DiscoveryManager.findXStat(
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val token = ++searchGeneration
+        // Only a visible activity may consume this search result.
+        discovery.findXStat(
             timeoutMs = 15_000L,
             onFound = { url ->
                 handler.post {
-                    launchMain(url)
+                    if (token == searchGeneration) launchMain(url)
+                }
+            },
+            onError = { error ->
+                handler.post {
+                    if (token == searchGeneration) launchMain(null, error.localizedMessage ?: "UDP discovery failed")
                 }
             },
             onTimeout = {
                 handler.post {
-                    launchMain(null)
+                    if (token == searchGeneration) launchMain(null)
                 }
             }
         )
     }
 
-    private fun launchMain(url: String?) {
+    private fun launchMain(url: String?, error: String? = null) {
+        if (launched || isFinishing || isDestroyed) return
+        launched = true
         val intent = Intent(this, MainActivity::class.java)
         if (url != null) {
             intent.putExtra(MainActivity.EXTRA_URL, url)
         }
+        if (error != null) intent.putExtra(MainActivity.EXTRA_ERROR, error)
         startActivity(intent)
         finish()
         // No transition animation — keeps the feel seamless
         overridePendingTransition(0, 0)
     }
 
+    override fun onStop() {
+        searchGeneration++
+        discovery.cancel()
+        handler.removeCallbacksAndMessages(null)
+        super.onStop()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
         animators.forEach { it.cancel() }
-        DiscoveryManager.cancel()
+        discovery.cancel()
     }
 }

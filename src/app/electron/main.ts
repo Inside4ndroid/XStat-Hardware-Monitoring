@@ -77,7 +77,7 @@ async function startService(): Promise<void> {
     : join(process.resourcesPath, 'service', 'XStat.Service.exe')
 
   console.log('[XStat] Starting hardware service:', exeName)
-  serviceProcess = spawn(exeName, [`--urls=http://0.0.0.0:${SERVICE_PORT}`], { detached: false, stdio: 'ignore', windowsHide: true })
+  serviceProcess = spawn(exeName, [`--ServicePort=${SERVICE_PORT}`], { detached: false, stdio: 'ignore', windowsHide: true })
   serviceProcess.on('error', (err) => console.error('[XStat] Service error:', err.message))
   serviceProcess.on('exit',  (code) => { console.log('[XStat] Service exited:', code); serviceProcess = null })
 

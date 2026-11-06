@@ -1,89 +1,103 @@
 package net.xstat.companion
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
+import android.os.SystemClock
+import android.util.Log
 import java.net.DatagramPacket
 import java.net.DatagramSocket
+import java.net.Inet4Address
+import java.net.InetSocketAddress
 import java.net.SocketTimeoutException
-import java.util.concurrent.atomic.AtomicBoolean
 
-/**
- * Listens on UDP port 47210 for the XStat discovery beacon.
- *
- * The .NET service broadcasts:  "XSTAT_HERE:{port}"  every 2 seconds.
- * When received, we build the HTTP URL from the sender's IP + the
- * advertised port and invoke [onFound].
- */
-object DiscoveryManager {
+/** An activity-owned listener. Old workers cannot close a newer socket. */
+class DiscoveryManager(context: Context) {
+    private val context = context.applicationContext
+    private var generation = 0L
+    private var socket: DatagramSocket? = null
 
-    private const val BEACON_PORT   = 47210
-    private const val BEACON_PREFIX = "XSTAT_HERE:"
-    private const val PACKET_SIZE   = 64
-
-    @Volatile private var socket: DatagramSocket? = null
-    private val cancelled = AtomicBoolean(false)
-
-    /**
-     * @param timeoutMs   How long to listen before giving up (ms).
-     * @param onFound     Called on a background thread with the discovered URL.
-     * @param onTimeout   Called on a background thread if nothing is found.
-     */
-    fun findXStat(
-        timeoutMs: Long,
-        onFound: (url: String) -> Unit,
-        onTimeout: () -> Unit
-    ) {
-        cancelled.set(false)
-
+    @Synchronized
+    fun findXStat(timeoutMs: Long, onFound: (String) -> Unit, onTimeout: () -> Unit,
+                  onError: (Exception) -> Unit) {
+        cancel()
+        val token = generation
         Thread {
+            var sock: DatagramSocket? = null
+            var lock: WifiManager.MulticastLock? = null
             try {
-                val sock = DatagramSocket(BEACON_PORT).also { socket = it }
-                sock.soTimeout = 2_000   // 2 s read timeout; we loop until overall timeout
-                sock.reuseAddress = true
-
-                val buf    = ByteArray(PACKET_SIZE)
-                val packet = DatagramPacket(buf, buf.size)
-                val deadline = System.currentTimeMillis() + timeoutMs
-
-                while (!cancelled.get() && System.currentTimeMillis() < deadline) {
-                    try {
-                        sock.receive(packet)
-
-                        val message = String(packet.data, 0, packet.length, Charsets.US_ASCII).trim()
-                        if (message.startsWith(BEACON_PREFIX)) {
-                            val port = message.removePrefix(BEACON_PREFIX).trim().toIntOrNull()
-                            if (port != null) {
-                                val senderIp = packet.address.hostAddress
-                                val url = "http://$senderIp:$port"
-                                cancel()
-                                onFound(url)
-                                return@Thread
-                            }
-                        }
-                    } catch (_: SocketTimeoutException) {
-                        // Normal — keep looping until overall deadline
+                synchronized(this) {
+                    if (token != generation) return@Thread
+                    val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                    @Suppress("DEPRECATION")
+                    Log.i("XStatDiscovery", "Starting discovery; network=${connectivity.activeNetworkInfo?.typeName}")
+                    val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
+                    lock = wifi?.createMulticastLock("XStatDiscovery")?.apply {
+                        setReferenceCounted(false)
+                        acquire()
+                    }
+                    sock = DatagramSocket(null).also {
+                        socket = it
+                        it.reuseAddress = true
+                        it.bind(InetSocketAddress("0.0.0.0", 47210))
                     }
                 }
-
-                if (!cancelled.get()) {
-                    onTimeout()
+                val receiver = checkNotNull(sock)
+                Log.i("XStatDiscovery", "Listening on UDP 0.0.0.0:47210")
+                val buffer = ByteArray(65)
+                val packet = DatagramPacket(buffer, buffer.size)
+                val deadline = SystemClock.elapsedRealtime() + timeoutMs
+                var rejected = 0
+                while (isCurrent(token)) {
+                    val remaining = deadline - SystemClock.elapsedRealtime()
+                    if (remaining <= 0) break
+                    receiver.soTimeout = minOf(remaining, 1000L).toInt().coerceAtLeast(1)
+                    try {
+                        packet.length = buffer.size
+                        receiver.receive(packet)
+                        val port = BeaconProtocol.parsePort(packet.data, packet.offset, packet.length)
+                        if (port == null || packet.address !is Inet4Address) {
+                            if (rejected++ < 3) Log.d("XStatDiscovery", "Rejected packet: bytes=${packet.length}, source=${packet.address.hostAddress}")
+                            continue
+                        }
+                        val url = "http://${packet.address.hostAddress}:$port"
+                        synchronized(this) {
+                            if (token != generation) return@Thread
+                            receiver.close()
+                            Log.i("XStatDiscovery", "Found XSTAT_HERE:$port; URL=$url")
+                            onFound(url)
+                        }
+                        return@Thread
+                    } catch (_: SocketTimeoutException) {
+                        // Recheck cancellation and the monotonic deadline.
+                    }
+                }
+                synchronized(this) {
+                    if (token == generation) {
+                        Log.i("XStatDiscovery", "Discovery timed out")
+                        onTimeout()
+                    }
                 }
             } catch (e: Exception) {
-                if (!cancelled.get()) {
-                    onTimeout()
+                synchronized(this) {
+                    if (token == generation) {
+                        Log.e("XStatDiscovery", "UDP discovery failed", e)
+                        onError(e)
+                    }
                 }
             } finally {
-                socket?.close()
-                socket = null
+                sock?.close()
+                if (lock?.isHeld == true) lock?.release()
+                synchronized(this) { if (socket === sock) socket = null }
             }
-        }.apply {
-            isDaemon = true
-            start()
-        }
+        }.apply { isDaemon = true; name = "XStatDiscovery"; start() }
     }
 
-    /** Cancel an in-progress discovery (e.g. activity destroyed). */
-    fun cancel() {
-        cancelled.set(true)
-        try { socket?.close() } catch (_: Exception) { }
+    @Synchronized private fun isCurrent(token: Long) = token == generation
+
+    @Synchronized fun cancel() {
+        generation++
+        socket?.close()
         socket = null
     }
 }
