@@ -3,6 +3,7 @@ import { PanelCanvas }      from '@/components/PanelCanvas'
 import { useSensorHistory } from '@/hooks/useSensorHistory'
 import { usePanelSensors }  from './usePanelSensors'
 import type { PanelLayout } from '@/types/panel'
+import { PanelViewport, preparePanel } from './PanelViewport'
 
 const EMPTY_PANEL: PanelLayout = {
   id: 'default',
@@ -68,6 +69,7 @@ export const PanelApp: React.FC = () => {
       return EMPTY_PANEL
     }
   }, [layoutJson])
+  const fitted = useMemo(() => preparePanel(panel), [panel])
 
   // Show guidance when: still loading (no layoutJson) or panel received but empty
   if (!layoutJson || panel.widgets.length === 0) {
@@ -75,9 +77,9 @@ export const PanelApp: React.FC = () => {
   }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, overflow: 'hidden', background: panel.canvasBackground }}>
+    <PanelViewport bounds={fitted.bounds} background={panel.canvasBackground}>
       <PanelCanvas
-        panel={panel}
+        panel={fitted.panel}
         snapshot={snapshot}
         history={history}
         isEditMode={false}
@@ -86,6 +88,6 @@ export const PanelApp: React.FC = () => {
         onSelect={() => {}}
         onWidgetGeometry={() => {}}
       />
-    </div>
+    </PanelViewport>
   )
 }
